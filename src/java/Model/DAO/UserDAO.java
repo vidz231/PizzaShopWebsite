@@ -31,9 +31,9 @@ public class UserDAO {
 
         try {
             cnn = DBUtils.getConnection();
-            String sql = "SELECT AccountID, UserName, Password, FullName, Type"
-                    + "FROM     Account"
-                    + "WHERE  (UserName = ?) AND (Password = ?)";
+            String sql = "SELECT AccountID, UserName, Password, FullName, Type "
+                + "FROM Account "
+                + "WHERE UserName = ? AND Password = ?";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, username);
             preStm.setString(2, password);
@@ -45,12 +45,10 @@ public class UserDAO {
                 fullName = rs.getString(4);
                 newPassword = "*****";
                 type = rs.getInt(5);
-                if (!fullName.isEmpty()) {
-                    return new User(accountID, username, fullName, password, type);
-                }
+                return new User(accountID, username, fullName, password, type);
             }
         } catch (Exception e) {
-            System.out.println("error at athenticate" + e.getMessage());
+            System.out.println("error at athenticate:  " + e.getMessage());
         } finally {
             if (rs != null) {
                 rs.close();
@@ -74,7 +72,7 @@ public class UserDAO {
 
         try {
             cnn = DBUtils.getConnection();
-            String sql = " INSERT INTO Account(UserName,[Password],FullName,[Type] "
+            String sql = " INSERT INTO Account(UserName,[Password],FullName,[Type] )"
                     + "Values(?,?,?,?)";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, user.getUsername());
@@ -97,7 +95,7 @@ public class UserDAO {
 
     }//end create user method
 //    </editor-fold>
-    
+
     //<editor-fold defaultstate="collapse" desc="update User method">
     public boolean updateUserMethod(User updatedUser) throws SQLException {
         Connection cnn = null;
@@ -127,7 +125,6 @@ public class UserDAO {
     }
 
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapse" desc="delete user method">
     public boolean deleteUser(int id) throws SQLException {
         Connection cnn = null;
