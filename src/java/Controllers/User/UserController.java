@@ -9,6 +9,7 @@ import Model.DAO.UserDAO;
 import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,8 +44,17 @@ public class UserController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String action;
         String url = loginServlet;
+        HttpSession session = request.getSession();
+
+        User user = (User) session.getAttribute("user");
+
         try {
-            action = request.getParameter("action");
+            if (user != null && user.getType() == 0) {
+                UserDAO userDao = new UserDAO();
+                List<User> userList = userDao.viewAllUser();
+                request.setAttribute("userList", userList);
+            }
+            action = request.getParameter("action").toLowerCase();
             if (action.equals("signin")) {
                 url = loginServlet;
             } else if (action.equals("register")) {

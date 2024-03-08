@@ -5,8 +5,12 @@
  */
 package Controllers.User;
 
+import Model.DAO.UserDAO;
+import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateUserServlet", urlPatterns = {"/UpdateUserServlet"})
 public class UpdateUserServlet extends HttpServlet {
 
+    private final String updateUserServlet = "UpdateUserSerlvet";
+    private final String updateUserPage = "editUser.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,18 +39,49 @@ public class UpdateUserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateUserServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateUserServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url;
+        String message;
+        List<User> userList;
+        User user;
+        try {
+            int id = Integer.parseInt(request.getParameter("userId"));
+            if (!request.getMethod().equalsIgnoreCase("GET")) {
+                System.out.println("processing post user edit");
+                int accountID = Integer.parseInt(request.getParameter("userId"));
+                String username = request.getParameter("username");
+                String fullName = request.getParameter("fullName");
+                String password = request.getParameter("password");
+                int type = Integer.parseInt(request.getParameter("type"));
+                user = new User();
+                user.setAccountID(accountID);
+                user.setUsername(username);
+                user.setFullName(fullName);
+                user.setPassword(password);
+                user.setType(type);
+                UserDAO userDao = new UserDAO();
+                if (userDao.updateUserMethod(user)) {
+                    message = "user updated succesfully!";
+                    request.setAttribute("message", message);
+                    request.setAttribute("user", user);
+
+                } else {
+                    request.setAttribute("user", user);
+                    message = "error updating user,double check your field and try again.";
+                    request.setAttribute("message", message);
+                }
+            } else {
+                userList = (List<User>) request.getAttribute("userList");
+                user = userList.stream().filter(filterUser -> filterUser.getAccountID() == id).findFirst().get();
+                request.setAttribute("user", user);
+            }
+
+        } catch (Exception e) {
+            log("error at update User" + e.getMessage());
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(updateUserPage);
+            rd.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -7,10 +7,13 @@ package Model.DAO;
 
 import Model.DBUtils;
 import Model.DTO.User;
+import Model.DTO.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -32,8 +35,8 @@ public class UserDAO {
         try {
             cnn = DBUtils.getConnection();
             String sql = "SELECT AccountID, UserName, Password, FullName, Type "
-                + "FROM Account "
-                + "WHERE UserName = ? AND Password = ?";
+                    + "FROM Account "
+                    + "WHERE UserName = ? AND Password = ?";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, username);
             preStm.setString(2, password);
@@ -64,7 +67,52 @@ public class UserDAO {
         return null;
     }//end authe method
     //</editor-fold>
+    //<editor-fold defaultstate="collapse" desc="view all user method">
+    public List<User> viewAllUser() throws Exception {
+        Connection cnn = null;
+        PreparedStatement preStm = null;
+        ResultSet rs = null;
+        List<User> userList = new ArrayList<>();
 
+        try {
+            cnn = DBUtils.getConnection();
+            String sql = "SELECT AccountID, UserName, Password, FullName, Type "
+                    + "FROM Account";
+            preStm = cnn.prepareStatement(sql);
+            rs = preStm.executeQuery();
+
+            while (rs.next()) {
+                int accountID = rs.getInt("AccountID");
+                String username = rs.getString("UserName");
+                String password = rs.getString("Password");
+                String fullName = rs.getString("FullName");
+                int type = rs.getInt("Type");
+
+                // Create a new User object with retrieved data
+                User user = new User(accountID, username, password, fullName, type);
+                // Add the User object to the list
+                userList.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println("Error at viewAllUser: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preStm != null) {
+                    preStm.close();
+                }
+                if (cnn != null) {
+                    cnn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error closing resources: " + ex.getMessage());
+            }
+        }
+        return userList;
+    }//end view all method method
+//</editor-fold>
     //<editor-fold defaultstate="collapse" desc="create User Method a.k.a register user">
     public boolean createUser(User user) throws SQLException {
         Connection cnn = null;
@@ -95,15 +143,14 @@ public class UserDAO {
 
     }//end create user method
 //    </editor-fold>
-
     //<editor-fold defaultstate="collapse" desc="update User method">
     public boolean updateUserMethod(User updatedUser) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "Update dbo.Account"
-                    + "SET UserName = ?,Password=?,FullName=?"
+            String sql = "Update dbo.Account "
+                    + "SET UserName = ?,Password=?,FullName=? "
                     + "where AccountID=?;";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, updatedUser.getUsername());
@@ -150,5 +197,4 @@ public class UserDAO {
         return false;
     }//end delete user method
 //    </editor-fold>
-
 }

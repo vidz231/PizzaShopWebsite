@@ -28,11 +28,15 @@
         <a href="CategoryManagement.jsp">Category manager</a></br>
         <a href="SupplierManagement.jsp">Supplier manager</a></br>
         <a href="ProductController?action=create">Create Product</a></br>
+        <a href="UserController?action=view">View User</a></br>
+        <a href="ProductController?action=view">View Product</a></br>
+
+        <%-- Product List--%>
 
         <% List<Product> listProduct = (List<Product>) request.getAttribute("productList");
             HashMap<Integer, Supplier> supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
             HashMap<Integer, Category> categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
-            if (!listProduct.isEmpty()) {
+            if (listProduct != null && !listProduct.isEmpty()) {
 
         %>
         <table>
@@ -63,6 +67,35 @@
         </table>
         <%}%>
 
+        <%-- User List--%>
+        <% List<User> userList = (List<User>) request.getAttribute("userList");
+            if (userList != null && !userList.isEmpty()) {
+        %>
+        <table>
+            <tr>
+                <th>Account ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Full Name</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+            <% for (User user1 : userList) {%>
+            <tr>
+                <td><%=user1.getAccountID()%></td>
+                <td><%=user1.getUsername()%></td>
+                <td><%=user1.getFullName()%></td>
+                <td><%=user1.getPassword()%></td>
+                <td><%=user1.getType()%></td>
+                <td>
+                    <!-- Add your action buttons or links here -->
+                    <a href="UserController?action=update&userId=<%=user1.getAccountID()%>">Edit</a> |
+                    <a href="UserController?action=delete&userId=<%=user1.getAccountID()%>">Delete</a>
+                </td>
+            </tr>
+            <% }%>
+        </table>
+        <%}%>
 
 
 
