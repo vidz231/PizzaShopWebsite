@@ -75,7 +75,7 @@
             <tr>
                 <th>Account ID</th>
                 <th>Username</th>
-                <th>Password</th>
+                <th>Password    </th>
                 <th>Full Name</th>
                 <th>Type</th>
                 <th>Action</th>
