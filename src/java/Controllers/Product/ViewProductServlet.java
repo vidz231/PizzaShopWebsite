@@ -3,31 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.User;
+package Controllers.Product;
 
-import Model.DAO.UserDAO;
-import Model.DTO.User;
+import Model.DAO.CategoryDAO;
+import Model.DAO.ProductDAO;
+import Model.DAO.SupplierDAO;
+import Model.DTO.Category;
+import Model.DTO.Product;
+import Model.DTO.Supplier;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
-
-    private final String loginServlet = "LoginServlet";
-    private final String registerServlet = "RegisterServlet";
-    private final String viewUserServlet = "ViewUserServlet";
-    private final String updateUserServlet = "UpdateUserServlet";
-    private final String deleteUserServlet = "DeleteUserServlet";
+@WebServlet(name = "ViewProductServlet", urlPatterns = {"/ViewProductServlet"})
+public class ViewProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,27 +40,30 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action;
-        String url = loginServlet;
-        try {
-            action = request.getParameter("action");
-            if (action.equals("signin")) {
-                url = loginServlet;
-            } else if (action.equals("register")) {
-                url = registerServlet;
-            } else if (action.equals("view")) {
-                url = viewUserServlet;
-            } else if (action.equals("update")) {
-                url = updateUserServlet;
-            } else if (action.equals("delete")) {
-                url = deleteUserServlet;
-            }
-        } catch (Exception e) {
-            log("error at usercontroller   " + e.getMessage());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
-        }
+        String url;
+        HashMap<Integer,Supplier> supplierList;
+        HashMap<Integer,Category> categoryList;
+        List<Product> productList;
 
+        try {
+            supplierList = (HashMap<Integer,Supplier>)request.getAttribute("supplierList");
+            productList = (List<Product>) request.getAttribute("productList");
+            categoryList = (HashMap<Integer,Category>)request.getAttribute("categoryList");
+//            System.out.println(productList.toString());
+//            System.out.println(supplierList.toString());
+            System.out.println(categoryList.toString());
+            if (!productList.isEmpty()) {
+                request.setAttribute("productList", productList);
+            }
+            request.setAttribute("supplierList", supplierList);
+            request.setAttribute("categoryList", categoryList);
+
+        } catch (Exception e) {
+            log("error at view product: " + e.getMessage());
+        } finally {
+            request.getRequestDispatcher("adminDashBoard.jsp").forward(request, response);
+            System.out.println("view product method completed");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

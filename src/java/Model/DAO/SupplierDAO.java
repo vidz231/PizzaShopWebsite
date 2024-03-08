@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,11 +22,11 @@ import java.util.List;
 public class SupplierDAO {
 
     //<editor-fold defaultstate="collapse" desc="view All Supplier method">
-    public List<Supplier> viewAllSupplier() throws Exception {
+    public HashMap<Integer, Supplier> viewAllSupplier() throws Exception {
         Connection cnn = null;
         PreparedStatement preStm = null;
         ResultSet rs = null;
-        List<Supplier> supplierList = new ArrayList<>();
+        HashMap<Integer, Supplier> supplierList = new HashMap<>();
         Supplier supplier;
         int id;
         String CompanyName;
@@ -33,7 +34,7 @@ public class SupplierDAO {
         long phone;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "SELECT SupplierID,CompanyName,Address,Phone"
+            String sql = "SELECT SupplierID,CompanyName,Address,Phone "
                     + "FROM     Suppliers";
             preStm = cnn.prepareStatement(sql);
             rs = preStm.executeQuery();
@@ -43,7 +44,7 @@ public class SupplierDAO {
                 address = rs.getString(3);
                 phone = rs.getLong(4);
                 supplier = new Supplier(id, CompanyName, address, phone);
-                supplierList.add(supplier);
+                supplierList.put(id, supplier);
             }
         } catch (Exception e) {
             System.out.println("error at view all supplier:     " + e.getMessage());
@@ -57,6 +58,9 @@ public class SupplierDAO {
             if (preStm != null) {
                 preStm.close();
             }
+        }
+        if (!supplierList.isEmpty()) {
+            return supplierList;
         }
 
         return null;

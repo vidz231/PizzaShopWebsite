@@ -149,7 +149,7 @@ public class ProductDAO {
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "DELETE FROM Products"
+            String sql = "DELETE FROM Products "
                     + "WHERE ProductID =?";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, id);

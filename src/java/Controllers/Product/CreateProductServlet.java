@@ -3,31 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.User;
+package Controllers.Product;
 
-import Model.DAO.UserDAO;
-import Model.DTO.User;
+import Model.DAO.ProductDAO;
+import Model.DTO.Category;
+import Model.DTO.Product;
+import Model.DTO.Supplier;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "CreateProductServlet", urlPatterns = {"/CreateProductServlet"})
+public class CreateProductServlet extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
-    private final String registerServlet = "RegisterServlet";
-    private final String viewUserServlet = "ViewUserServlet";
-    private final String updateUserServlet = "UpdateUserServlet";
-    private final String deleteUserServlet = "DeleteUserServlet";
+    private final String createProductPage = "createProduct.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,27 +41,42 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action;
-        String url = loginServlet;
+        String url = createProductPage;
+        String message;
+        HashMap<Integer, Supplier> supplierList;
+        HashMap<Integer, Category> categoryList;
+        List<Product> productList;
         try {
-            action = request.getParameter("action");
-            if (action.equals("signin")) {
-                url = loginServlet;
-            } else if (action.equals("register")) {
-                url = registerServlet;
-            } else if (action.equals("view")) {
-                url = viewUserServlet;
-            } else if (action.equals("update")) {
-                url = updateUserServlet;
-            } else if (action.equals("delete")) {
-                url = deleteUserServlet;
+            categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
+            supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
+            request.setAttribute("supplierList", supplierList);
+            request.setAttribute("categoryList", categoryList);
+            if (request.getMethod().equalsIgnoreCase("GET")) {
+                url = createProductPage;
+                System.out.println("processing first time load for view create product");
+            } else {
+                ProductDAO productDao = new ProductDAO();
+                Product p;
+                String productName = request.getParameter("productName");
+                int supplierID = Integer.parseInt(request.getParameter("supplierID"));
+                int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+                int quantityPerUnit = Integer.parseInt(request.getParameter("quantityPerUnit"));
+                double unitPrice = Double.parseDouble(request.getParameter("UnitPrice"));
+                String productImage = request.getParameter("productImage");
+                p = new Product(0, productName, supplierID, categoryID, quantityPerUnit, supplierID, productImage);
+                if(productDao.createProduct(p)){
+                    message = "product created succesfully";
+                    request.setAttribute("message", message);
+                }
+                
             }
-        } catch (Exception e) {
-            log("error at usercontroller   " + e.getMessage());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
-        }
 
+        } catch (Exception e) {
+            log("error at create product: " + e.getMessage());
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

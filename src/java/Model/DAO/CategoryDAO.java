@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,18 +23,18 @@ import java.util.List;
 public class CategoryDAO {
 
     //<editor-fold defaultstate="collapse" desc="view All Category method">
-    public List<Category> viewAllCategory() throws Exception {
+    public HashMap<Integer,Category> viewAllCategory() throws Exception {
         Connection cnn = null;
         PreparedStatement preStm = null;
         ResultSet rs = null;
-        List<Category> categoryList = new ArrayList<>();
+        HashMap<Integer,Category> categoryList = new HashMap<>();
         Category category;
         int id;
         String categoryName;
         String description;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "SELECT CategoryID,CategoryName,Description"
+            String sql = "SELECT CategoryID,CategoryName,Description "
                     + "FROM     Categories";
             preStm = cnn.prepareStatement(sql);
             rs = preStm.executeQuery();
@@ -42,7 +43,7 @@ public class CategoryDAO {
                 categoryName = rs.getString(2);
                 description = rs.getString(3);
                 category = new Category(id, categoryName, description);
-                categoryList.add(category);
+                categoryList.put(id,category);
             }
         } catch (Exception e) {
             System.out.println("error at view all category:     " + e.getMessage());
@@ -57,7 +58,9 @@ public class CategoryDAO {
                 preStm.close();
             }
         }
-
+        if(!categoryList.isEmpty()){
+            return categoryList;
+        }
         return null;
     }//end authe method
     //</editor-fold>

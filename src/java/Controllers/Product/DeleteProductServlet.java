@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.User;
+package Controllers.Product;
 
-import Model.DAO.UserDAO;
-import Model.DTO.User;
+import Model.DAO.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,21 +13,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
-
-    private final String loginServlet = "LoginServlet";
-    private final String registerServlet = "RegisterServlet";
-    private final String viewUserServlet = "ViewUserServlet";
-    private final String updateUserServlet = "UpdateUserServlet";
-    private final String deleteUserServlet = "DeleteUserServlet";
-
+@WebServlet(name = "DeleteProductServlet", urlPatterns = {"/DeleteProductServlet"})
+public class DeleteProductServlet extends HttpServlet {
+    private final String adminDashBoard ="ProductController?action=view";
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,27 +34,21 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action;
-        String url = loginServlet;
-        try {
-            action = request.getParameter("action");
-            if (action.equals("signin")) {
-                url = loginServlet;
-            } else if (action.equals("register")) {
-                url = registerServlet;
-            } else if (action.equals("view")) {
-                url = viewUserServlet;
-            } else if (action.equals("update")) {
-                url = updateUserServlet;
-            } else if (action.equals("delete")) {
-                url = deleteUserServlet;
+        String message;
+        try{
+            int id = Integer.parseInt(request.getParameter("productId"));
+            ProductDAO  productDao= new ProductDAO();
+            if(productDao.deleteProduct(id)){
+                message ="product deleted succesfully!";
+                request.setAttribute("message", message);
             }
-        } catch (Exception e) {
-            log("error at usercontroller   " + e.getMessage());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            
+            
+        }catch(Exception e){
+            e.getMessage();
+        }finally{
+            request.getRequestDispatcher(adminDashBoard).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

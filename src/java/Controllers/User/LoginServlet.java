@@ -25,10 +25,9 @@ import javax.servlet.http.HttpSession;
 public class LoginServlet extends HttpServlet {
 
     private final String loginServlet = "LoginServlet";
-    private final String landingPage = "landingPage.jsp";
-    private final String adminPage = "adminDashBoard.jsp";
+    private final String landingPage = "ProductController?action=view";
+    private final String adminPage = "ProductController?action=view";
     private final String loginPage = "login.jsp";
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
