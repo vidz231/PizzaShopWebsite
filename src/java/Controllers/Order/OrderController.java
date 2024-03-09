@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.User;
+package Controllers.Order;
 
-import Model.DAO.UserDAO;
-import Model.DTO.User;
+import Model.DAO.OrderDAO;
+import Model.DTO.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,20 +15,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "OrderController", urlPatterns = {"/OrderController"})
+public class OrderController extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
-    private final String registerServlet = "RegisterServlet";
-    private final String viewUserServlet = "ViewUserServlet";
-    private final String updateUserServlet = "UpdateUserServlet";
-    private final String deleteUserServlet = "DeleteUserServlet";
+    private final String viewOrderServlet = "ViewOrderServlet";
+    private final String updateOrderServlet = "UpdateOrderServlet";
+    private final String createOrderServlet = "CreateOrderServlet";
+    private final String deleteOrderServlet = "DeleteOrderServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,43 +40,30 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action;
-        String url = loginServlet;
-        HttpSession session = request.getSession();
-
-        User user = (User) session.getAttribute("user");
-
+        String action = request.getParameter("action").toLowerCase();
+        String url = viewOrderServlet;
+        OrderDAO orderDao = new OrderDAO();
+        List<Order> orderList;
         try {
-            action = request.getParameter("action").toLowerCase();
-            if (action.equals("signin")) {
-                url = loginServlet;
-            } else if (action.equals("register")) {
-                url = registerServlet;
+            orderList = orderDao.viewAllOrder();
+            System.out.println(orderList.toString());
+            if(!orderList.isEmpty()){
+                request.setAttribute("orderList", orderList);
             }
-            if (user != null) {
-                if (user != null && user.getType() == 0) {
-                    UserDAO userDao = new UserDAO();
-                    List<User> userList = userDao.viewAllUser();
-                    request.setAttribute("userList", userList);
-                }
-                if (action.equals("view")) {
-                    url = viewUserServlet;
-                } else if (action.equals("update")) {
-                    url = updateUserServlet;
-                } else if (action.equals("delete")) {
-                    url = deleteUserServlet;
-                }
-
-            }else{
-                url = loginServlet;
+            if(action.equals("view")){
+                url = viewOrderServlet;
+            }else if(action.equals("update")){
+                url = updateOrderServlet;
+            }else if(action.equals("delete")){
+                url = deleteOrderServlet;
+            }else if(action.equals("create")){
+                url = createOrderServlet;
             }
-
         } catch (Exception e) {
-            log("error at usercontroller   " + e.getMessage());
+            log("error at user controller: "+e.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

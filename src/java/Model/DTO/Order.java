@@ -6,6 +6,7 @@
 package Model.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -14,16 +15,16 @@ import java.io.Serializable;
 public class Order implements Serializable{
     private int orderID;
     private int customerID;
-    private String orderDate;
-    private String requireDate;
-    private String shippedDate;
+    private Date orderDate;
+    private Date requireDate;
+    private Date shippedDate;
     private String freight;//don vi giao hang of(shoppe ,grab,gojek, bla bla)
     private String shipAddress;
 
     public Order() {
     }
 
-    public Order(int orderID, int customerID, String orderDate, String requireDate, String shippedDate, String freight, String shipAddress) {
+    public Order(int orderID, int customerID, Date orderDate, Date requireDate, Date shippedDate, String freight, String shipAddress) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.orderDate = orderDate;
@@ -49,27 +50,27 @@ public class Order implements Serializable{
         this.customerID = customerID;
     }
 
-    public String getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
-    public String getRequireDate() {
+    public Date getRequireDate() {
         return requireDate;
     }
 
-    public void setRequireDate(String requireDate) {
+    public void setRequireDate(Date requireDate) {
         this.requireDate = requireDate;
     }
 
-    public String getShippedDate() {
+    public Date getShippedDate() {
         return shippedDate;
     }
 
-    public void setShippedDate(String shippedDate) {
+    public void setShippedDate(Date shippedDate) {
         this.shippedDate = shippedDate;
     }
 

@@ -74,7 +74,7 @@ public class UpdateUserServlet extends HttpServlet {
                 user = userList.stream().filter(filterUser -> filterUser.getAccountID() == id).findFirst().get();
                 request.setAttribute("user", user);
             }
-
+            
         } catch (Exception e) {
             log("error at update User" + e.getMessage());
         } finally {
