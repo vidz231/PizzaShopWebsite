@@ -11,6 +11,7 @@ import Model.DAO.SupplierDAO;
 import Model.DTO.Category;
 import Model.DTO.Product;
 import Model.DTO.Supplier;
+import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -50,6 +52,8 @@ public class ProductController extends HttpServlet {
         HashMap<Integer, Supplier> supplierList;
         HashMap<Integer, Category> categoryList;
         List<Product> productList;
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(url);
 
         try {
             SupplierDAO supplierDao = new SupplierDAO();

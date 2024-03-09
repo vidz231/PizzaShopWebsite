@@ -110,7 +110,7 @@ public class OrderDAO {
         try {
             cnn = DBUtils.getConnection();
             String sql = "UPDATE Orders "
-                    + "SET CustomerID=?, OrderDate=?, RequireDate=?, ShippedDate=?, Freight=?, ShipAddress=? "
+                    + "SET CustomerID=?, OrderDate=?, RequiredDate=?, ShippedDate=?, Freight=?, ShipAddress=? "
                     + "WHERE OrderID=?";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, updatedOrder.getCustomerID());
@@ -141,7 +141,7 @@ public class OrderDAO {
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "DELETE FROM Orders"
+            String sql = "DELETE FROM Orders "
                     + "WHERE OrderID =?";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, id);

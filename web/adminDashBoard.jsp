@@ -218,7 +218,7 @@
                                                     Are you sure you want to delete id = <%= order.getOrderID()%>?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form method="POST" action="OrderController?action=update">
+                                                    <form method="POST" action="OrderController?action=delete">
                                                         <input type="hidden" name="orderId" value="<%= order.getOrderID()%>">
                                                         <button type="submit" class="btn btn-danger">Yes</button>
                                                     </form>

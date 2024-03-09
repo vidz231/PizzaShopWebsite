@@ -63,7 +63,6 @@
                             <%=request.getAttribute("message")%>
                         </div>
                         <%}%>
-
                         <script>
                             document.addEventListener('DOMContentLoaded', function () {
                                 setTimeout(function () {

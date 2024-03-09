@@ -11,6 +11,7 @@ import Model.DAO.SupplierDAO;
 import Model.DTO.Category;
 import Model.DTO.Product;
 import Model.DTO.Supplier;
+import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,6 +29,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ViewProductServlet", urlPatterns = {"/ViewProductServlet"})
 public class ViewProductServlet extends HttpServlet {
+
+    private final String landingPage = "landingPage.jsp";
+    private final String adminDashBoard = "adminDashBoard.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,28 +45,35 @@ public class ViewProductServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url;
-        HashMap<Integer,Supplier> supplierList;
-        HashMap<Integer,Category> categoryList;
+        String url =landingPage;
+        HashMap<Integer, Supplier> supplierList;
+        HashMap<Integer, Category> categoryList;
         List<Product> productList;
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
 
         try {
-            supplierList = (HashMap<Integer,Supplier>)request.getAttribute("supplierList");
+            supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
             productList = (List<Product>) request.getAttribute("productList");
-            categoryList = (HashMap<Integer,Category>)request.getAttribute("categoryList");
+            categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
 //            System.out.println(productList.toString());
 //            System.out.println(supplierList.toString());
             System.out.println(categoryList.toString());
             if (!productList.isEmpty()) {
                 request.setAttribute("productList", productList);
             }
-            request.setAttribute("supplierList", supplierList);
-            request.setAttribute("categoryList", categoryList);
+            if (user.getType() == 0) {
+                request.setAttribute("supplierList", supplierList);
+                request.setAttribute("categoryList", categoryList);
+                url = adminDashBoard;
+            } else {
+                url = landingPage;
+            }
 
         } catch (Exception e) {
             log("error at view product: " + e.getMessage());
         } finally {
-            request.getRequestDispatcher("adminDashBoard.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
             System.out.println("view product method completed");
         }
     }

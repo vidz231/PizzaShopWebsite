@@ -28,6 +28,7 @@ public class LoginServlet extends HttpServlet {
     private final String landingPage = "ProductController?action=view";
     private final String adminPage = "ProductController?action=view";
     private final String loginPage = "login.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,23 +47,31 @@ public class LoginServlet extends HttpServlet {
         String password;
         User user;
         try {
-            username = request.getParameter("txtUserName");
-            password = request.getParameter("txtPassword");
-            UserDAO userDao = new UserDAO();
-            user = userDao.authenticate(username, password);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                if (user.getType() == 0) {
-                    url = adminPage;
-                } else if (user.getType() == 1) {
-                    url = landingPage;
-                }
-            } else {
-                message = "error loggin";
+            if (request.getMethod().equalsIgnoreCase("GET")) {
                 url = loginPage;
+            } else {
+
+                username = request.getParameter("txtUserName");
+                password = request.getParameter("txtPassword");
+                UserDAO userDao = new UserDAO();
+                user = userDao.authenticate(username, password);
+                if (user != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    if (user.getType() == 0) {
+                        url = adminPage;
+                    } else if (user.getType() == 1) {
+                        url = landingPage;
+                    }
+                } else {
+                    message = "incorrect username or password";
+                    url = loginPage;
+                    request.setAttribute("message", message);
+
+                }
+
             }
-            request.setAttribute("message", message);
+
         } catch (Exception e) {
             log("error at User controller:  " + e.getMessage());
         } finally {

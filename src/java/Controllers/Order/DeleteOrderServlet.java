@@ -5,6 +5,7 @@
  */
 package Controllers.Order;
 
+import Model.DAO.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DeleteOrderServlet", urlPatterns = {"/DeleteOrderServlet"})
 public class DeleteOrderServlet extends HttpServlet {
 
+    private final String orderController = "OrderController";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,17 +35,23 @@ public class DeleteOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteOrderServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteOrderServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = orderController+"?action=view";
+        String message;
+        int orderId;
+        try {
+            orderId = Integer.parseInt(request.getParameter("orderId"));
+            OrderDAO orderDao = new OrderDAO();
+            if (orderDao.deleteOrder(orderId)) {
+                message = "order deleted succesfully";
+                request.setAttribute("message", message);
+            } else {
+                message = "error deleting order.Pls check your console for details";
+                request.setAttribute("message", message);
+            }
+        } catch (Exception e) {
+            log("error at delete order servlet: " + e.getMessage());
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
