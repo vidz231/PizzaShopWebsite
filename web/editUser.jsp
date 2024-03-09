@@ -22,7 +22,7 @@
             <label for="fullName">Full Name:</label><br>
             <input type="text" id="fullName" name="fullName" value="<%=user.getFullName()%>"><br>
             <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" value="<%=user.getPassword()%>"><br>
+            <input type="text" id="password" name="password" value="<%=user.getPassword()%>"><br>
             <label for="type">Type:</label><br>
             <input type="number" id="type" name="type" value="<%=user.getType()%>"><br>
             <% if (request.getAttribute("message") != null) {%>

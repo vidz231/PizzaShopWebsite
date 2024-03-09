@@ -89,7 +89,7 @@ public class UserDAO {
                 int type = rs.getInt("Type");
 
                 // Create a new User object with retrieved data
-                User user = new User(accountID, username, password, fullName, type);
+                User user = new User(accountID, username, fullName, password, type);
                 // Add the User object to the list
                 userList.add(user);
             }
@@ -178,7 +178,7 @@ public class UserDAO {
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "DELETE FROM Account"
+            String sql = "DELETE FROM Account "
                     + "WHERE AccountID =?";
 
             preStm = cnn.prepareStatement(sql);
