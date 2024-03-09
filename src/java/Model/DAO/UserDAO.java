@@ -68,6 +68,7 @@ public class UserDAO {
     }//end authe method
     //</editor-fold>
     //<editor-fold defaultstate="collapse" desc="view all user method">
+
     public List<User> viewAllUser() throws Exception {
         Connection cnn = null;
         PreparedStatement preStm = null;
@@ -114,6 +115,7 @@ public class UserDAO {
     }//end view all method method
 //</editor-fold>
     //<editor-fold defaultstate="collapse" desc="create User Method a.k.a register user">
+
     public boolean createUser(User user) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
@@ -144,19 +146,22 @@ public class UserDAO {
     }//end create user method
 //    </editor-fold>
     //<editor-fold defaultstate="collapse" desc="update User method">
+
     public boolean updateUserMethod(User updatedUser) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
             String sql = "Update dbo.Account "
-                    + "SET UserName = ?,Password=?,FullName=? "
+                    + "SET UserName = ?,Password=?,FullName=?,Type=? "
                     + "where AccountID=?;";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, updatedUser.getUsername());
             preStm.setString(2, updatedUser.getPassword());
             preStm.setString(3, updatedUser.getFullName());
-            preStm.setInt(4, updatedUser.getAccountID());
+            preStm.setInt(4, updatedUser.getType());
+            preStm.setInt(5, updatedUser.getAccountID());
+
             return preStm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println("error at udapteUserMethod: " + e.getMessage());

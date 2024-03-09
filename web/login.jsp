@@ -16,11 +16,14 @@
         <form action="UserController" method="POST">
             Username:<input type="text" name="txtUserName"/></br>
             Password:<input type="password" name ="txtPassword"/></br>
+            <a href="UserController?action=register">register here</a>
+
             <% if (request.getAttribute("message") != null) {%>
             <p style="color: red"><%=request.getAttribute("message")%></p>
             <%}%>
             <input type="submit" value="signin" name="action"/>
         </form>
+
 
     </body>
 </html>

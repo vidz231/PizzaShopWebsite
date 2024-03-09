@@ -22,6 +22,7 @@
             <p style="color: red"><%=request.getAttribute("message")%></p>
             <%}%>
             <input type="submit" value="register" name="action"/>
+            <a href="UserController?action=signin">Sign in</a>
         </form>
     </body>
 </html>

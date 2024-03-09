@@ -55,7 +55,6 @@ public class CustomerDAO {
         return customerList.isEmpty() ? null : customerList;
     }//end  method
     //</editor-fold>
-
     //<editor-fold defaultstate="collapse" desc="create Customer Method">
     public boolean createCustomer(Customer customer) throws SQLException {
         Connection cnn = null;
@@ -84,7 +83,6 @@ public class CustomerDAO {
         return false;
     }//end create user method
 //    </editor-fold>
-
     //<editor-fold defaultstate="collapse" desc="update Customer method">
     public boolean updateCustomer(Customer updatedCustomer) throws SQLException {
         Connection cnn = null;

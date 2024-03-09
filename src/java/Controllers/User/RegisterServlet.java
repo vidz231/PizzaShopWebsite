@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String username = request.getParameter("txtUserName");
         String password = request.getParameter("txtPassword");
@@ -47,20 +47,23 @@ public class RegisterServlet extends HttpServlet {
         String url = registerPage;
         String message = "Error register! double check your field";
         try {
-            if (password.equals(confirmPassword)) {
-
-                UserDAO userDao = new UserDAO();
-                user = new User(0, username, fullName, password, 1);
-                if (userDao.createUser(user)) {
-                    url = loginPage;
+            if (request.getMethod().equalsIgnoreCase("GET")) {
+                url = registerPage;
+            } else {
+                if (password.equals(confirmPassword)) {
+                    UserDAO userDao = new UserDAO();
+                    user = new User(0, username, fullName, password, 1);
+                    if (userDao.createUser(user)) {
+                        message = "user created Successfully";
+                    } else {
+                        message ="error register user";
+                    }
                 } else {
-                    url = registerPage;
+                    message = "confirm password doesn't match! please double check and try again.";
                 }
-            }else{
-                url =registerPage;
-                message ="confirm password doesn't match! please double check and try again.";
+                request.setAttribute("message", message);
             }
-            request.setAttribute("message", message);
+
         } catch (Exception e) {
             log("error at register:  " + e.getMessage());
         } finally {
