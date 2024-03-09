@@ -6,7 +6,7 @@
 package Model.DTO;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
@@ -89,6 +89,7 @@ public class Order implements Serializable{
     public void setShipAddress(String shipAddress) {
         this.shipAddress = shipAddress;
     }
+
 
     @Override
     public String toString() {

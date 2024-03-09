@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -79,9 +79,9 @@ public class OrderDAO {
             String sql = "INSERT INTO Orders(CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, ShipAddress) VALUES (?, ?, ?, ?, ?, ?)";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, order.getCustomerID());
-            preStm.setString(2, order.getOrderDate());
-            preStm.setString(3, order.getRequireDate());
-            preStm.setString(4, order.getShippedDate());
+            preStm.setDate(2, order.getOrderDate());
+            preStm.setDate(3, order.getRequireDate());
+            preStm.setDate(4, order.getShippedDate());
             preStm.setString(5, order.getFreight());
             preStm.setString(6, order.getShipAddress());
 
@@ -114,9 +114,9 @@ public class OrderDAO {
                     + "WHERE OrderID=?";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, updatedOrder.getCustomerID());
-            preStm.setString(2, updatedOrder.getOrderDate());
-            preStm.setString(3, updatedOrder.getRequireDate());
-            preStm.setString(4, updatedOrder.getShippedDate());
+            preStm.setDate(2, updatedOrder.getOrderDate());
+            preStm.setDate(3, updatedOrder.getRequireDate());
+            preStm.setDate(4, updatedOrder.getShippedDate());
             preStm.setString(5, updatedOrder.getFreight());
             preStm.setString(6, updatedOrder.getShipAddress());
             preStm.setInt(7, updatedOrder.getOrderID());
