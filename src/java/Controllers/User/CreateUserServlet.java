@@ -62,7 +62,7 @@ public class CreateUserServlet extends HttpServlet {
                 request.setAttribute("user", user);
             }
         } catch (Exception e) {
-            log("error at create user servlet:  "+e.getMessage());
+            log("error at create user servlet:  " + e.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

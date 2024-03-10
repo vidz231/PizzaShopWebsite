@@ -68,8 +68,8 @@
             <a class="btn btn-danger" href="UserController?action=signout">Sign Out</a>
 
         </nav>
-        <div class="container d-flex justify-content-center">
-            <div class="row">
+        <div class="container ">
+            <div class="row d-flex justify-content-center">
                 <c:choose >
 
                     <c:when test="${requestScope.productList != null}">
@@ -77,8 +77,16 @@
                         <% List<Product> listProduct = (List<Product>) request.getAttribute("productList");
                             HashMap<Integer, Supplier> supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
                             HashMap<Integer, Category> categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
-                            if (listProduct != null && !listProduct.isEmpty()) {
                         %>
+                        <div class="col-8 justify-content-center d-flex justify-content-center mt-3">
+                            <form action="ProductController" method="GET">
+                                <input type="hidden" name="action" value="view"/>
+                                <input type="search" value="<c:out value="${requestScope.searchParam }"/>"  name="searchParam"/>
+                                <input type="submit" class="btn btn-secondary"value="search"/>
+                            </form>
+
+                        </div>
+
                         <table class="table table-bordered mt-3 table-hover">
                             <thead>
                                 <tr>
@@ -131,7 +139,6 @@
                                 <% }%>
                             </tbody>
                         </table>
-                        <%}%>
 
                     </c:when>
                     <c:when test="${requestScope.userList != null}">

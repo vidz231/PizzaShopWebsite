@@ -52,7 +52,6 @@ public class ViewProductServlet extends HttpServlet {
         List<Product> productList;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-
         try {
             supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
             productList = (List<Product>) request.getAttribute("productList");
@@ -64,9 +63,18 @@ public class ViewProductServlet extends HttpServlet {
                 request.setAttribute("productList", productList);
             }
             if (user.getType() == 0) {
+                url = adminDashBoard;
                 request.setAttribute("supplierList", supplierList);
                 request.setAttribute("categoryList", categoryList);
-                url = adminDashBoard;
+                if (!request.getParameter("searchParam").isEmpty()) {
+                    String searchParam = request.getParameter("searchParam");
+                    productList = productList.stream().filter(p -> String.valueOf(p.getProductID()).contains(searchParam)
+                            || p.getProductName().toLowerCase().startsWith(searchParam.toLowerCase())
+                            || String.valueOf(p.getUnitPrice()).contains(searchParam))
+                            .collect(Collectors.toList());
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("searchParam", searchParam);
+                }
             } else {
                 if (!request.getParameter("filterByCategory").isEmpty()) {
                     int filterCategoryParam = Integer.parseInt(request.getParameter("filterByCategory"));
