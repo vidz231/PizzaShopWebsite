@@ -21,8 +21,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DASHBOARD</title>
     </head>
-    <% User user = (User) session.getAttribute("user");
-        if (user.getType() != 0) {
+    <%
+        if (session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath());
         }
     %>
@@ -32,25 +32,41 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="ProductController?action=create">Create Product</a>
+
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Create
+                </button>
+                <ul class="dropdown-menu">
+                    <li >
+                        <a  class="dropdown-item" href="ProductController?action=create">Create Product</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="UserController?action=view">View User</a>
+                    <li >
+                        <a class="dropdown-item"  href="UserController?action=create">Create User</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ProductController?action=view">View Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="OrderController?action=view">View Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="UserController?action=signout">Sign Out</a>
+                    <li>
+                        <a class="dropdown-item"  href="OrderController?action=create">Create Order</a>
                     </li>
                 </ul>
             </div>
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    View
+                </button>
+                <ul class="dropdown-menu">
+                    <li >
+                        <a class="dropdown-item" href="UserController?action=view">View User</a>
+                    </li>
+                    <li >
+                        <a class="dropdown-item" href="ProductController?action=view">View Product</a>
+                    </li>
+                    <li >
+                        <a class="dropdown-item" href="OrderController?action=view">View Order</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="btn btn-danger" href="UserController?action=signout">Sign Out</a>
+
         </nav>
         <div class="container d-flex justify-content-center">
             <div class="row">
@@ -62,7 +78,6 @@
                             HashMap<Integer, Supplier> supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
                             HashMap<Integer, Category> categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
                             if (listProduct != null && !listProduct.isEmpty()) {
-
                         %>
                         <table class="table table-bordered mt-3 table-hover">
                             <thead>

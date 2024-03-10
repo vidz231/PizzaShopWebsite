@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +46,7 @@ public class ViewProductServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url =landingPage;
+        String url = landingPage;
         HashMap<Integer, Supplier> supplierList;
         HashMap<Integer, Category> categoryList;
         List<Product> productList;
@@ -67,6 +68,16 @@ public class ViewProductServlet extends HttpServlet {
                 request.setAttribute("categoryList", categoryList);
                 url = adminDashBoard;
             } else {
+                if (!request.getParameter("filterByCategory").isEmpty()) {
+                    int filterCategoryParam = Integer.parseInt(request.getParameter("filterByCategory"));
+                    productList = productList.stream()
+                            .filter(p -> p.getCategoryID() == filterCategoryParam)
+                            .collect(Collectors.toList());
+                    request.setAttribute("productList", productList);
+                }
+                request.setAttribute("productList", productList);
+
+                request.setAttribute("categoryList", categoryList);
                 url = landingPage;
             }
 

@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateUserServlet", urlPatterns = {"/UpdateUserServlet"})
 public class UpdateUserServlet extends HttpServlet {
 
-    private final String updateUserServlet = "UpdateUserSerlvet";
     private final String updateUserPage = "editUser.jsp";
+    private final String updateProfilePage = "editProfile.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,46 +40,80 @@ public class UpdateUserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url;
+        String url = updateUserPage;
         String message;
         List<User> userList;
         User user;
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("user");
         try {
-            int id = Integer.parseInt(request.getParameter("userId"));
-            if (!request.getMethod().equalsIgnoreCase("GET")) {
-                System.out.println("processing post user edit");
-                int accountID = Integer.parseInt(request.getParameter("userId"));
-                String username = request.getParameter("username");
-                String fullName = request.getParameter("fullName");
-                String password = request.getParameter("password");
-                int type = Integer.parseInt(request.getParameter("type"));
-                user = new User();
-                user.setAccountID(accountID);
-                user.setUsername(username);
-                user.setFullName(fullName);
-                user.setPassword(password);
-                user.setType(type);
-                UserDAO userDao = new UserDAO();
-                if (userDao.updateUserMethod(user)) {
-                    message = "user updated succesfully!";
-                    request.setAttribute("message", message);
-                    request.setAttribute("user", user);
+            if (sessionUser.getType() == 0) {
+                int id = Integer.parseInt(request.getParameter("userId"));
+                if (!request.getMethod().equalsIgnoreCase("GET")) {
+                    System.out.println("processing post user edit");
+                    int accountID = Integer.parseInt(request.getParameter("userId"));
+                    String username = request.getParameter("username");
+                    String fullName = request.getParameter("fullName");
+                    String password = request.getParameter("password");
+                    int type = Integer.parseInt(request.getParameter("type"));
+                    user = new User();
+                    user.setAccountID(accountID);
+                    user.setUsername(username);
+                    user.setFullName(fullName);
+                    user.setPassword(password);
+                    user.setType(type);
+                    UserDAO userDao = new UserDAO();
+                    if (userDao.updateUserMethod(user)) {
+                        message = "user updated succesfully!";
+                        request.setAttribute("message", message);
+                        request.setAttribute("user", user);
 
+                    } else {
+                        request.setAttribute("user", user);
+                        message = "error updating user,double check your field and try again.";
+                        request.setAttribute("message", message);
+                    }
                 } else {
+                    userList = (List<User>) request.getAttribute("userList");
+                    user = userList.stream().filter(filterUser -> filterUser.getAccountID() == id).findFirst().get();
                     request.setAttribute("user", user);
-                    message = "error updating user,double check your field and try again.";
-                    request.setAttribute("message", message);
                 }
-            } else {
-                userList = (List<User>) request.getAttribute("userList");
-                user = userList.stream().filter(filterUser -> filterUser.getAccountID() == id).findFirst().get();
-                request.setAttribute("user", user);
+            } else if (sessionUser.getType() == 1) {
+                url = updateProfilePage;
+
+                if (request.getMethod().equalsIgnoreCase("GET")) {
+                    request.setAttribute("user", sessionUser);
+                } else {
+                    int accountID = Integer.parseInt(request.getParameter("userId"));
+                    String username = request.getParameter("username");
+                    String fullName = request.getParameter("fullName");
+                    String password = request.getParameter("password");
+//                int type = Integer.parseInt(request.getParameter("type"));
+                    user = new User();
+                    user.setAccountID(accountID);
+                    user.setUsername(username);
+                    user.setFullName(fullName);
+                    user.setPassword(password);
+                    user.setType(1);
+                    UserDAO userDao = new UserDAO();
+                    if (userDao.updateUserMethod(user)) {
+                        message = "user updated succesfully!";
+                        request.setAttribute("message", message);
+                        request.setAttribute("user", user);
+                        session.setAttribute("user", user);
+                    } else {
+                        request.setAttribute("user", user);
+                        message = "error updating user,double check your field and try again.";
+                        request.setAttribute("message", message);
+                    }
+                }
+
             }
-            
+
         } catch (Exception e) {
             log("error at update User" + e.getMessage());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(updateUserPage);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
 

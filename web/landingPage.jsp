@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home</title>
     </head>
     <body>
 
@@ -21,19 +21,35 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Category
+                    </button>
+                    <ul class="dropdown-menu">
+                        <c:forEach var="category" items="${requestScope.categoryList}">
+                            <li>
+                                <a class="dropdown-item" 
+                                   href="ProductController?action=view&filterByCategory=${category.key}">
+                                    ${category.value.categoryName}
+                                </a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
+
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" href="ProductController?action=view">Menu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Menu</a>
+                            <a class="nav-link" href="UserController?action=update&userId=<c:out value="${sessionScope.user.accountID}"/>">Profiles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="UserController?action=signout">Signout</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" aria-current="page" href="#">Orders</a>
                         </li>
                     </ul>
                 </div>
@@ -47,7 +63,7 @@
                             <img src="${product.productImage}" class="card-img-top" alt="${product.productName}">
                             <div class="card-body">
                                 <h5 class="card-title">${product.productName}</h5>
-                                <p class="card-text">Unit Price: ${product.unitPrice}</p>
+                                <p class="card-text">$ ${product.unitPrice}</p>
                                 <a href="#" class="btn btn-primary">Add to Cart</a>
                             </div>
                         </div>

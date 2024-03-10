@@ -5,8 +5,11 @@
  */
 package Controllers.Order;
 
+import Model.DAO.OrderDAO;
+import Model.DTO.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CreateOrderServlet", urlPatterns = {"/CreateOrderServlet"})
 public class CreateOrderServlet extends HttpServlet {
 
+    private final String createOrderPage = "createOrder.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,17 +37,38 @@ public class CreateOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CreateOrderServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CreateOrderServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = createOrderPage;
+        String message;
+        int orderID;
+        int customerID;
+        Date orderDate;
+        Date requireDate;
+        Date shippedDate;
+        String freight;//don vi giao hang of(shoppe ,grab,gojek, bla bla)
+        String shipAddress;
+        Order order;
+        try {
+            orderID = 0;
+            customerID = Integer.parseInt(request.getParameter("customerID"));
+            orderDate = Date.valueOf(request.getParameter("orderDate"));
+            requireDate = Date.valueOf(request.getParameter("requireDate"));
+            shippedDate = Date.valueOf(request.getParameter("shippedDate"));
+            freight = request.getParameter("freight");
+            shipAddress = request.getParameter("shipAddress");
+            order = new Order(orderID, customerID, orderDate, requireDate, shippedDate, freight, shipAddress);
+            OrderDAO orderDAO = new OrderDAO();
+            request.setAttribute("order", order);
+            if (orderDAO.createOrder(order)) {
+                message = "order created successfully";
+                request.setAttribute("message", message);
+            } else {
+                message = "error creating order,pls double check your field and try again";
+                request.setAttribute("message", message);
+            }
+        } catch (Exception e) {
+            log("error at create or servlet: " + e.getMessage());
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
