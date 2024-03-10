@@ -3,29 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.Order;
+package Controllers.OrderDetail;
 
-import Model.DAO.OrderDAO;
-import Model.DTO.Order;
+import Model.DAO.OrderDetailsDAO;
+import Model.DTO.OrderDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.List;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "UpdateOrderServlet", urlPatterns = {"/UpdateOrderServlet"})
-public class UpdateOrderServlet extends HttpServlet {
+@WebServlet(name = "OrderDetailController", urlPatterns = {"/OrderDetailController"})
+public class OrderDetailController extends HttpServlet {
 
-    private final String editOrderPage = "editOrder.jsp";
+    private final String viewOrderDetailServlet = "ViewOrderDetailServlet";
+    private final String updateOrderDetailServlet = "UpdateOrderDetailServlet";
+    private final String createOrderDetailServlet = "CreateOrderDetailServlet";
+    private final String deleteOrderDetailServlet = "DeleteOrderDetailServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,48 +41,28 @@ public class UpdateOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = editOrderPage;
-        String message;
-        UUID orderID;
-        int customerID;
-        Date orderDate;
-        Date requireDate;
-        Date shippedDate;
-        String freight;
-        String shipAddress;
-        Order order;
-        List<Order> orderList;
+        String action = request.getParameter("action").toLowerCase();
+        String url = viewOrderDetailServlet;
+        OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
+        List<OrderDetails> orderDetailList;
+        HttpSession session = request.getSession();
         try {
-            if (request.getMethod().equalsIgnoreCase("GET")) {
-                UUID paramId = UUID.fromString(request.getParameter("orderId"));
-                orderList = (List<Order>) request.getAttribute("orderList");
-                order = orderList.stream()
-                        .filter(ord -> ord.getOrderID() == paramId)
-                        .findFirst().get();
-                request.setAttribute("order", order);
-            } else {
-                orderID = UUID.fromString(request.getParameter("orderID"));
-                customerID = Integer.parseInt(request.getParameter("customerID"));
-                orderDate = Date.valueOf(request.getParameter("orderDate"));
-                requireDate = Date.valueOf(request.getParameter("requireDate"));
-                shippedDate = Date.valueOf(request.getParameter("shippedDate"));
-                freight = request.getParameter("freight");
-                shipAddress = request.getParameter("shipAddress");
-                order = new Order(orderID, customerID, orderDate, requireDate, shippedDate, freight, shipAddress);
-                OrderDAO orderDao = new OrderDAO();
-                request.setAttribute("order", order);
-                if (orderDao.updateOrder(order)) {
-                    message = "order updated successfully";
-                    request.setAttribute("message", message);
-                } else {
-                    message = "error updating order";
-                    request.setAttribute("message", message);
-
-                }
-
+            orderDetailList = orderDetailsDAO.viewAllOrderDetails();
+            System.out.println(orderDetailList.toString());
+            if (!orderDetailList.isEmpty()) {
+                request.setAttribute("orderDetailList", orderDetailList);
+            }
+            if (action.equals("view")) {
+                url = viewOrderDetailServlet;
+            } else if (action.equals("update")) {
+                url = updateOrderDetailServlet;
+            } else if (action.equals("delete")) {
+                url = deleteOrderDetailServlet;
+            } else if (action.equals("create")) {
+                url = createOrderDetailServlet;
             }
         } catch (Exception e) {
-            log("errror at update order servlet:   " + e.getMessage());
+            log("error at order detail controller: " + e.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

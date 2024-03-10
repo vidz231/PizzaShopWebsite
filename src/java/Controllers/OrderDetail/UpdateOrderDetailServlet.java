@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.Order;
+package Controllers.OrderDetail;
 
-import Model.DAO.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "DeleteOrderServlet", urlPatterns = {"/DeleteOrderServlet"})
-public class DeleteOrderServlet extends HttpServlet {
-
-    private final String orderController = "OrderController";
+@WebServlet(name = "UpdateOrderDetailServlet", urlPatterns = {"/UpdateOrderDetailServlet"})
+public class UpdateOrderDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,23 +32,17 @@ public class DeleteOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = orderController+"?action=view";
-        String message;
-        UUID orderId;
-        try {
-            orderId = UUID.fromString(request.getParameter("orderId"));
-            OrderDAO orderDao = new OrderDAO();
-            if (orderDao.deleteOrder(orderId)) {
-                message = "order deleted succesfully";
-                request.setAttribute("message", message);
-            } else {
-                message = "error deleting order.Pls check your console for details";
-                request.setAttribute("message", message);
-            }
-        } catch (Exception e) {
-            log("error at delete order servlet: " + e.getMessage());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet UpdateOrderDetailServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet UpdateOrderDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

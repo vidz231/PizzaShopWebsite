@@ -7,13 +7,14 @@ package Model.DTO;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.UUID;
 
 /**
  *
  * @author TRUNG VI
  */
 public class Order implements Serializable{
-    private int orderID;
+    private UUID orderID;
     private int customerID;
     private Date orderDate;
     private Date requireDate;
@@ -24,7 +25,7 @@ public class Order implements Serializable{
     public Order() {
     }
 
-    public Order(int orderID, int customerID, Date orderDate, Date requireDate, Date shippedDate, String freight, String shipAddress) {
+    public Order(UUID orderID, int customerID, Date orderDate, Date requireDate, Date shippedDate, String freight, String shipAddress) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.orderDate = orderDate;
@@ -34,11 +35,11 @@ public class Order implements Serializable{
         this.shipAddress = shipAddress;
     }
 
-    public int getOrderID() {
+    public UUID getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(UUID orderID) {
         this.orderID = orderID;
     }
 

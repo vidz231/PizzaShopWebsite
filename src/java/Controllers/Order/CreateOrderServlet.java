@@ -6,15 +6,26 @@
 package Controllers.Order;
 
 import Model.DAO.OrderDAO;
+import Model.DAO.OrderDetailsDAO;
+import Model.DTO.CartItem;
+import Model.DTO.Customer;
 import Model.DTO.Order;
+import Model.DTO.OrderDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -24,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateOrderServlet extends HttpServlet {
 
     private final String createOrderPage = "createOrder.jsp";
+    private final String confirmShippingPage = "confirmOrder.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,7 +51,7 @@ public class CreateOrderServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = createOrderPage;
         String message;
-        int orderID;
+        UUID orderID;
         int customerID;
         Date orderDate;
         Date requireDate;
@@ -47,19 +59,34 @@ public class CreateOrderServlet extends HttpServlet {
         String freight;//don vi giao hang of(shoppe ,grab,gojek, bla bla)
         String shipAddress;
         Order order;
+        HttpSession session = request.getSession();
+        HashMap<Integer, CartItem> cartMap;
         try {
-            orderID = 0;
-            customerID = Integer.parseInt(request.getParameter("customerID"));
-            orderDate = Date.valueOf(request.getParameter("orderDate"));
-            requireDate = Date.valueOf(request.getParameter("requireDate"));
-            shippedDate = Date.valueOf(request.getParameter("shippedDate"));
-            freight = request.getParameter("freight");
-            shipAddress = request.getParameter("shipAddress");
-            order = new Order(orderID, customerID, orderDate, requireDate, shippedDate, freight, shipAddress);
+            cartMap = (HashMap<Integer, CartItem>) session.getAttribute("Cart");
+            OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
+            OrderDetails orderDetails;
+            Customer customer = (Customer)session.getAttribute("customer");
+            orderID = UUID.randomUUID();
+            LocalDate orderDateLocal = LocalDate.now();
+            LocalDate requireDateLocal = orderDateLocal.plus(15, ChronoUnit.DAYS);
+            LocalDate shippedDateLocal = orderDateLocal.plus(ThreadLocalRandom.current().nextInt(1, 31), ChronoUnit.DAYS);
+            orderDate = Date.valueOf(orderDateLocal);
+            requireDate = Date.valueOf(requireDateLocal);
+            shippedDate = Date.valueOf(shippedDateLocal);
+            freight = "grab";
+            shipAddress = "123 hang xanh";
+            order = new Order(orderID, customer.getId(), orderDate, requireDate, shippedDate, freight, shipAddress);
+
             OrderDAO orderDAO = new OrderDAO();
             request.setAttribute("order", order);
             if (orderDAO.createOrder(order)) {
                 message = "order created successfully";
+                for (Map.Entry<Integer, CartItem> entry : cartMap.entrySet()) {
+                    CartItem value = entry.getValue();
+                    orderDetails = new OrderDetails(orderID,  value.getItemId(), value.getUnitPrice(), value.getQuantity());
+                    orderDetailsDAO.createOrderDetail(orderDetails);
+                }
+                session.removeAttribute("Cart");
                 request.setAttribute("message", message);
             } else {
                 message = "error creating order,pls double check your field and try again";

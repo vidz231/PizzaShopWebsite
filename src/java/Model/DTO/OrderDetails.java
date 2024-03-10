@@ -5,13 +5,15 @@
  */
 package Model.DTO;
 
+import java.util.UUID;
+
 /**
  *
  * @author TRUNG VI
  */
 public class OrderDetails {
 
-    private int orderID;
+    private UUID orderID;
     private int productID;
     private double unitPrice;
     private int quantity;
@@ -19,18 +21,18 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
-    public OrderDetails(int orderID, int productID, double unitPrice, int quantity) {
+    public OrderDetails(UUID orderID, int productID, double unitPrice, int quantity) {
         this.orderID = orderID;
         this.productID = productID;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
     }
 
-    public int getOrderID() {
+    public UUID getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(UUID orderID) {
         this.orderID = orderID;
     }
 

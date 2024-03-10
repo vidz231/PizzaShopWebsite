@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -35,7 +36,7 @@ public class OrderDAO {
             rs = preStm.executeQuery();
 
             while (rs.next()) {
-                int orderId = rs.getInt("OrderID");
+                UUID orderId = UUID.fromString(rs.getString("OrderID"));
                 int customerId = rs.getInt("CustomerID");
                 Date orderDate = rs.getDate("OrderDate");
                 Date requiredDate = rs.getDate("RequiredDate");
@@ -76,14 +77,15 @@ public class OrderDAO {
 
         try {
             cnn = DBUtils.getConnection();
-            String sql = "INSERT INTO Orders(CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, ShipAddress) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Orders(OrderID,CustomerID, OrderDate, RequiredDate, ShippedDate, Freight, ShipAddress) VALUES (?,?, ?, ?, ?, ?, ?)";
             preStm = cnn.prepareStatement(sql);
-            preStm.setInt(1, order.getCustomerID());
-            preStm.setDate(2, order.getOrderDate());
-            preStm.setDate(3, order.getRequireDate());
-            preStm.setDate(4, order.getShippedDate());
-            preStm.setString(5, order.getFreight());
-            preStm.setString(6, order.getShipAddress());
+            preStm.setString(1, order.getOrderID().toString());
+            preStm.setInt(2, order.getCustomerID());
+            preStm.setDate(3, order.getOrderDate());
+            preStm.setDate(4, order.getRequireDate());
+            preStm.setDate(5, order.getShippedDate());
+            preStm.setString(6, order.getFreight());
+            preStm.setString(7, order.getShipAddress());
 
             return preStm.executeUpdate() > 0;
         } catch (Exception e) {
@@ -104,6 +106,7 @@ public class OrderDAO {
     }
 //</editor-fold>
     //<editor-fold defaultstate="collapse" desc="update Order method">
+
     public boolean updateOrder(Order updatedOrder) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
@@ -119,7 +122,7 @@ public class OrderDAO {
             preStm.setDate(4, updatedOrder.getShippedDate());
             preStm.setString(5, updatedOrder.getFreight());
             preStm.setString(6, updatedOrder.getShipAddress());
-            preStm.setInt(7, updatedOrder.getOrderID());
+            preStm.setString(7, updatedOrder.getOrderID().toString());
             return preStm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println("Error at updateOrder method: " + e.getMessage());
@@ -136,7 +139,7 @@ public class OrderDAO {
 
     //</editor-fold>
     //<editor-fold defaultstate="collapse" desc="delete Order method">
-    public boolean deleteOrder(int id) throws SQLException {
+    public boolean deleteOrder(UUID id) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
         try {
@@ -144,7 +147,7 @@ public class OrderDAO {
             String sql = "DELETE FROM Orders "
                     + "WHERE OrderID =?";
             preStm = cnn.prepareStatement(sql);
-            preStm.setInt(1, id);
+            preStm.setString(1, id.toString());
             return preStm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println("error at delete Order:   " + e.getMessage());
