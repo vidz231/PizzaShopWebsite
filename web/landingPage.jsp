@@ -56,6 +56,11 @@
             </div>
         </nav>
         <div class="container">
+            <div class="row mt-3 mb-3">
+                <div class="col-6">
+                    <a class="btn btn-primary" href="CartController?action=view">view cart</a>
+                </div>
+            </div>
             <div class="row">
                 <c:forEach var="product" items="${requestScope.productList}">
                     <div class="col-md-3">

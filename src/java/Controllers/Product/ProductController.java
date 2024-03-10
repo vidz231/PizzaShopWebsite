@@ -69,7 +69,7 @@ public class ProductController extends HttpServlet {
             if (action.equals("view")) {
                 url = viewProductServlet;
             } else if (action.equals("update")) {
-                System.out.println("processing update product");
+//                System.out.println("processing update product");
                 url = updateProductServlet;
             } else if (action.equals("delete")) {
                 url = deleteProductServlet;

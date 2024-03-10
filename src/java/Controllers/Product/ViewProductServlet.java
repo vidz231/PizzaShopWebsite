@@ -58,7 +58,7 @@ public class ViewProductServlet extends HttpServlet {
             categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
 //            System.out.println(productList.toString());
 //            System.out.println(supplierList.toString());
-            System.out.println(categoryList.toString());
+//            System.out.println(categoryList.toString());
             if (!productList.isEmpty()) {
                 request.setAttribute("productList", productList);
             }

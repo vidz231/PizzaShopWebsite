@@ -5,20 +5,27 @@
  */
 package Controllers.Cart;
 
+import Model.DTO.CartItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TRUNG VI
  */
-@WebServlet(name = "SaveCartSerlvet", urlPatterns = {"/SaveCartSerlvet"})
-public class SaveCartSerlvet extends HttpServlet {
+@WebServlet(name = "SaveCartServlet", urlPatterns = {"/SaveCartServlet"})
+public class SaveCartServlet extends HttpServlet {
+
+    private final String cartController = "CartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,17 +39,27 @@ public class SaveCartSerlvet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SaveCartSerlvet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SaveCartSerlvet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = null;
+        String message = null;
+        HashMap<Integer, CartItem> itemsInCart = null;
+        try {
+            HttpSession sessionCart = request.getSession();
+            itemsInCart = (HashMap<Integer, CartItem>) sessionCart.getAttribute("Cart");
+            CartUtils cart = new CartUtils();
+            if (itemsInCart != null) {
+                String strItemsInCart = cart.convertCartToString(new ArrayList<>(itemsInCart.values()));
+                cart.saveCartToCookie(request, response, strItemsInCart);
+                message = "Your cart has been saved successfully";
+            } else {
+                message = " Your cart is empty";
+            }
+            url = cartController + "?action=view";
+        } catch (Exception e) {
+            log("SaveCartController has error : " + e.getMessage());
+        } finally {
+            request.setAttribute("message", message);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 

@@ -25,7 +25,7 @@ public class CartController extends HttpServlet {
     private final String updateCartServlet = "UpdateCartServlet";
     private final String removeFromCartServlet = "RemoveFromCartServlet";
     private final String saveCartServlet = "SaveCartServlet";
-    private final String viewCartServlet = "ViewCartServet";
+    private final String viewCartServlet = "ViewCartServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author TRUNG VI
  */
-public class CartItem  implements  Serializable{
+public class CartItem implements Serializable {
 
     private int itemId;
     private String itemName;
@@ -62,9 +62,7 @@ public class CartItem  implements  Serializable{
 
     @Override
     public String toString() {
-        return "Cart{" + "\nitemId=" + itemId + ",\nitemName=" + itemName + ",\nquantity=" + quantity + ",\nunitPrice=" + unitPrice + '}';
+        return String.format("%d,%s,%s,%.2f", itemId,itemName,quantity,unitPrice);
     }
-    
-    
 
 }
