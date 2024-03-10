@@ -31,6 +31,15 @@
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" value="<%=user.getPassword()%>" class="form-control">
                 </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="number" id="phone" name="phone" value="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="shipAddress">Shipping Address:</label>
+                    <input type="password" id="shipAddress" name="shipAddress" value="" class="form-control">
+                </div>
                 <div class="form-group">
                     <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
                     <input type="submit" name="action" value="Update" class="btn btn-primary">
