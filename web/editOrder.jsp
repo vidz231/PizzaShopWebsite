@@ -61,23 +61,6 @@
         </div>
     </div>
 
-    <% if (request.getAttribute("message") != null) {%>
-    <div class="alert alert-success fixed-top text-center mt-3" id="alert-message" style="margin-left: auto; margin-right: auto; left: 0; right: 0; width: 200px;">
-        <%=request.getAttribute("message")%>
-    </div>
-    <%}%>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(function () {
-                var alertMessage = document.getElementById('alert-message');
-                alertMessage.style.opacity = "0";
-                setTimeout(function () {
-                    alertMessage.style.display = "none";
-                }, 1000); // waits for the fade out animation to finish
-            }, 2000); // fades out after 2 seconds
-        });
-    </script>
-
     <jsp:include page="footer.jsp"/>
 
 </body>

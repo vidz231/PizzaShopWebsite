@@ -57,24 +57,32 @@ public class LoginServlet extends HttpServlet {
                 username = request.getParameter("txtUserName");
                 password = request.getParameter("txtPassword");
                 UserDAO userDao = new UserDAO();
-                user = userDao.authenticate(username, password);
-                CustomerDAO customerDao = new CustomerDAO();
-                Customer customer = customerDao.getUserByID(user.getAccountID());
-                
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-                    session.setAttribute("customer", customer);
-                    if (user.getType() == 0) {
-                        url = adminPage;
-                    } else if (user.getType() == 1) {
-                        url = landingPage;
+                if (!username.isEmpty() && !password.isEmpty()) {
+
+                    user = userDao.authenticate(username, password);
+                    CustomerDAO customerDao = new CustomerDAO();
+                    Customer customer = customerDao.getUserByID(user.getAccountID());
+
+                    if (user != null) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", user);
+                        session.setAttribute("customer", customer);
+                        if (user.getType() == 0) {
+                            url = adminPage;
+                        } else if (user.getType() == 1) {
+                            url = landingPage;
+                        }
+                    } else {
+                        message = "incorrect username or password";
+                        url = loginPage;
+                        request.setAttribute("message", message);
+
                     }
                 } else {
-                    message = "incorrect username or password";
-                    url = loginPage;
+                    message = "error loggin please double check your field!";
                     request.setAttribute("message", message);
 
+                    url = loginPage;
                 }
 
             }

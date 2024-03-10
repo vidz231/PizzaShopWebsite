@@ -72,8 +72,9 @@
                                 <strong>Subtotal:</strong> <span id="subtotal">${requestScope.subTotal}</span>
                             </p>
                             <div>
-                                <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
-                                <a href="CartController?action=save" class="btn btn-primary">Save Cart</a>
+                                <a href="ProductController?action=view" class="btn btn-outline-secondary">Back</a>
+                                <a href="CartController?action=save" class="btn btn-secondary">Save Cart</a>
+                                <a href="OrderController?action=create" class="btn btn-primary">Place Order</a>
                             </div>
                         </div>
                     </div>
