@@ -77,14 +77,14 @@ public class ViewProductServlet extends HttpServlet {
                 }
             } else {
                 if (!request.getParameter("filterByCategory").isEmpty()) {
-                    int filterCategoryParam = Integer.parseInt(request.getParameter("filterByCategory"));
+                    int filterByCategory = Integer.parseInt(request.getParameter("filterByCategory"));
                     productList = productList.stream()
-                            .filter(p -> p.getCategoryID() == filterCategoryParam)
+                            .filter(p -> p.getCategoryID() == filterByCategory)
                             .collect(Collectors.toList());
                     request.setAttribute("productList", productList);
+                    request.setAttribute("filterByCategory", filterByCategory);
                 }
                 request.setAttribute("productList", productList);
-
                 request.setAttribute("categoryList", categoryList);
                 url = landingPage;
             }

@@ -25,6 +25,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AddToCartServlet", urlPatterns = {"/AddToCartServlet"})
 public class AddToCartServlet extends HttpServlet {
 
+    private final String landingPage = "ProductController?action=view";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,12 +41,18 @@ public class AddToCartServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart;
+        String url = landingPage;
+        String message;
         int itemId;
         String itemName;
         int quantity;
         double unitPrice;
         CartItem cartItem;
         try {
+            if (!request.getParameter("filterByCategory").isEmpty()) {
+                int filterByCategory = Integer.parseInt(request.getParameter("filterByCategory"));
+                url = landingPage + "&filterByCatgory=" + String.valueOf(filterByCategory);
+            }
             itemId = Integer.parseInt(request.getParameter("itemId"));
             itemName = request.getParameter("itemName");
             quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -54,15 +62,25 @@ public class AddToCartServlet extends HttpServlet {
                 cart = new HashMap<>();
                 cart.put(itemId, cartItem);
                 session.setAttribute("Cart", cart);
-
+                message = "item added to cart";
+                request.setAttribute("message", message);
             } else {
                 cart = (HashMap<Integer, CartItem>) session.getAttribute("Cart");
-
+                if (cart.get(itemId) != null) {
+                    cart.get(itemId).setQuantity(cart.get(itemId).getQuantity() + 1);
+                    message = "cart increase successfully";
+                    request.setAttribute("message", message);
+                } else {
+                    cart.put(itemId, cartItem);
+                    message = "item added to cart";
+                    request.setAttribute("message", message);
+                }
+                session.setAttribute("Cart", cart);
             }
         } catch (Exception e) {
-
+            log("error at add to cart servlet: " + e.getMessage());
         } finally {
-
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

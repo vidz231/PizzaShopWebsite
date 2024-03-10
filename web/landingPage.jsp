@@ -64,7 +64,15 @@
                             <div class="card-body">
                                 <h5 class="card-title">${product.productName}</h5>
                                 <p class="card-text">$ ${product.unitPrice}</p>
-                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                                <form action="CartController" method="GET">
+                                    <input type="hidden" id="itemId" name="itemId" value="${product.productID}">
+                                    <input type="hidden" id="itemName" name="itemName" value="${product.productName}">
+                                    <input type="hidden" id="quantity" name="quantity" value="1">
+                                    <input type="hidden" id="unitPrice" name="unitPrice" value="${product.unitPrice}">
+                                    <input type="hidden" id="filterByCategory" name="filterByCategory" value="${requestScope.filterByCategory}">
+                                    <input type="hidden" id="action" name="action" value="add">
+                                    <input class="btn btn-primary   " type="submit" value="Add to Cart">
+                                </form>
                             </div>
                         </div>
                     </div>

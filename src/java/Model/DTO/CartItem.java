@@ -5,11 +5,13 @@
  */
 package Model.DTO;
 
+import java.io.Serializable;
+
 /**
  *
  * @author TRUNG VI
  */
-public class CartItem {
+public class CartItem  implements  Serializable{
 
     private int itemId;
     private String itemName;
