@@ -73,8 +73,7 @@
                             </p>
                             <div>
                                 <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
-                                <a href="CartController?action=save" class="btn btn-primary">Proceed to Payment</a>
-
+                                <a href="CartController?action=save" class="btn btn-primary">Save Cart</a>
                             </div>
                         </div>
                     </div>

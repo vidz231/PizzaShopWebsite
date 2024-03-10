@@ -5,7 +5,9 @@
  */
 package Controllers.User;
 
+import Model.DAO.CustomerDAO;
 import Model.DAO.UserDAO;
+import Model.DTO.Customer;
 import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.tomcat.jni.SSLContext;
 
 /**
  *
@@ -55,9 +58,13 @@ public class LoginServlet extends HttpServlet {
                 password = request.getParameter("txtPassword");
                 UserDAO userDao = new UserDAO();
                 user = userDao.authenticate(username, password);
+                CustomerDAO customerDao = new CustomerDAO();
+                Customer customer = customerDao.getUserByID(user.getAccountID());
+                
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
+                    session.setAttribute("customer", customer);
                     if (user.getType() == 0) {
                         url = adminPage;
                     } else if (user.getType() == 1) {

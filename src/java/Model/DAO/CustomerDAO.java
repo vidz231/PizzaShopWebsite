@@ -56,18 +56,20 @@ public class CustomerDAO {
     }//end  method
     //</editor-fold>
     //<editor-fold defaultstate="collapse" desc="create Customer Method">
+
     public boolean createCustomer(Customer customer) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
 
         try {
             cnn = DBUtils.getConnection();
-            String sql = "INSERT INTO Customers([Password], ContactName, [Address], Phone) VALUES(?,?,?,?)";
+            String sql = "INSERT INTO Customers(CustomerID,[Password], ContactName, [Address], Phone) VALUES(?,?,?,?,?)";
             preStm = cnn.prepareStatement(sql);
-            preStm.setString(1, customer.getPassword());
-            preStm.setString(2, customer.getContactName());
-            preStm.setString(3, customer.getAddress());
-            preStm.setLong(4, customer.getPhone());
+            preStm.setInt(1, customer.getId());
+            preStm.setString(2, customer.getPassword());
+            preStm.setString(3, customer.getContactName());
+            preStm.setString(4, customer.getAddress());
+            preStm.setLong(5, customer.getPhone());
             return preStm.executeUpdate() > 0;
 
         } catch (Exception e) {
@@ -84,6 +86,7 @@ public class CustomerDAO {
     }//end create user method
 //    </editor-fold>
     //<editor-fold defaultstate="collapse" desc="update Customer method">
+
     public boolean updateCustomer(Customer updatedCustomer) throws SQLException {
         Connection cnn = null;
         PreparedStatement preStm = null;
@@ -137,4 +140,40 @@ public class CustomerDAO {
         return false;
     }//end delete Customer method
 //    </editor-fold>
+    //<editor-fold defaultstate="collapse" desc="get customer by id">
+
+    public Customer getUserByID(int id) throws Exception {
+        Connection cnn = null;
+        PreparedStatement preStm = null;
+        ResultSet rs = null;
+        Customer customer = null;
+        try {
+            cnn = DBUtils.getConnection();
+            String sql = "SELECT CustomerID, Password, ContactName, Address, Phone FROM Customers WHERE CustomerID = ?";
+            preStm = cnn.prepareStatement(sql);
+            preStm.setInt(1, id);
+            rs = preStm.executeQuery();
+            if (rs.next()) {
+                String password = rs.getString("Password");
+                String contactName = rs.getString("ContactName");
+                String address = rs.getString("Address");
+                long phone = rs.getLong("Phone");
+                customer = new Customer(id, password, contactName, address, phone);
+            }
+        } catch (Exception e) {
+            System.out.println("error at get user by id: " + e.getMessage());
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (cnn != null) {
+                cnn.close();
+            }
+            if (preStm != null) {
+                preStm.close();
+            }
+        }
+        return customer;
+    }
+//</editor-fold>
 }

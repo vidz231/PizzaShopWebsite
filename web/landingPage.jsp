@@ -46,10 +46,15 @@
                             <a class="nav-link" href="UserController?action=update&userId=<c:out value="${sessionScope.user.accountID}"/>">Profiles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="UserController?action=signout">Signout</a>
+                            <a class="nav-link" aria-current="page" href="OrderController?action=view&customerId=${sessionScope.customer.id}">Orders</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Orders</a>
+                            <c:if test="${sessionScope.user!=null}">
+                                <a class="nav-link btn btn-danger text-white" href="UserController?action=signout">Sign out</a>
+                            </c:if>
+                            <c:if test="${sessionScope.user==null}">
+                                <a class="nav-link btn btn-primary text-white" href="UserController?action=signin">Log in</a>
+                            </c:if>
                         </li>
                     </ul>
                 </div>

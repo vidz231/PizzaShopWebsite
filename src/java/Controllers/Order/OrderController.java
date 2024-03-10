@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -44,6 +45,7 @@ public class OrderController extends HttpServlet {
         String url = viewOrderServlet;
         OrderDAO orderDao = new OrderDAO();
         List<Order> orderList;
+        HttpSession session = request.getSession();
         try {
             orderList = orderDao.viewAllOrder();
             System.out.println(orderList.toString());

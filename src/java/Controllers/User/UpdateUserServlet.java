@@ -5,7 +5,9 @@
  */
 package Controllers.User;
 
+import Model.DAO.CustomerDAO;
 import Model.DAO.UserDAO;
+import Model.DTO.Customer;
 import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -88,13 +90,31 @@ public class UpdateUserServlet extends HttpServlet {
                     String username = request.getParameter("username");
                     String fullName = request.getParameter("fullName");
                     String password = request.getParameter("password");
+                    long phone = Long.parseLong(request.getParameter("phone"));
+                    String address = request.getParameter("shipAddress");
+
+                    if (!request.getParameter("phone").isEmpty() || !request.getParameter("shipAddress").isEmpty()) {
+                        CustomerDAO customerDao = new CustomerDAO();
+                        Customer customer = new Customer(accountID, password, fullName, address, phone);
+                        if (customerDao.getUserByID(accountID) == null) {
+                            log("hihi3");
+                            if (customerDao.createCustomer(customer)) {
+                                message = "update profile succesfully";
+                                log("hihi2");
+
+                                request.setAttribute("message", message);
+                            }
+                        } else {
+                            if (customerDao.updateCustomer(customer)) {
+                                System.out.println("customer updated succesfully");
+                            } else {
+                                System.out.println("error updateing customer");
+                            }
+                        }
+                        session.setAttribute("customer", customer);
+                    }
 //                int type = Integer.parseInt(request.getParameter("type"));
-                    user = new User();
-                    user.setAccountID(accountID);
-                    user.setUsername(username);
-                    user.setFullName(fullName);
-                    user.setPassword(password);
-                    user.setType(1);
+                    user = new User(accountID, username, fullName, password, 1);
                     UserDAO userDao = new UserDAO();
                     if (userDao.updateUserMethod(user)) {
                         message = "user updated succesfully!";

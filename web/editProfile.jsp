@@ -4,6 +4,8 @@
     Author     : TRUNG VI
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="Model.DTO.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,15 +36,15 @@
 
                 <div class="form-group">
                     <label for="phone">Phone:</label>
-                    <input type="number" id="phone" name="phone" value="" class="form-control">
+                    <input type="number" id="phone" name="phone" value="<c:out value="${sessionScope.customer.phone}"/>"  class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="shipAddress">Shipping Address:</label>
-                    <input type="password" id="shipAddress" name="shipAddress" value="" class="form-control">
+                    <input type="text" id="shipAddress" name="shipAddress" value ="${sessionScope.customer.address}"class="form-control">
                 </div>
                 <div class="form-group">
                     <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
-                    <input type="submit" name="action" value="Update" class="btn btn-primary">
+                    <input type="submit" name="action" value="update" class="btn btn-primary">
                 </div>
             </form>
         </div>
