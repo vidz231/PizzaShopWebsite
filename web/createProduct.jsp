@@ -22,8 +22,8 @@
         %>
         <div class="container-fluid ">
             <h1 class="text-center">Create Product</h1>
-            <div class="row justify-content-center w-full"> 
-                <div class="col-4">
+            <div class="row justify-content-center"> 
+                <div class="col-6">
 
                     <form action="ProductController?action=create" method="POST" >
                         <div class="form-group">

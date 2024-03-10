@@ -30,6 +30,7 @@ public class UserController extends HttpServlet {
     private final String updateUserServlet = "UpdateUserServlet";
     private final String deleteUserServlet = "DeleteUserServlet";
     private final String signoutServlet = "SignOutServlet";
+    private final String createUserServlet = "CreateUserServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,7 +56,7 @@ public class UserController extends HttpServlet {
                 url = loginServlet;
             } else if (action.equals("register")) {
                 url = registerServlet;
-            }else if (action.equals("signout")){
+            } else if (action.equals("signout")) {
                 url = signoutServlet;
             }
             if (user != null) {
@@ -70,6 +71,8 @@ public class UserController extends HttpServlet {
                     url = updateUserServlet;
                 } else if (action.equals("delete")) {
                     url = deleteUserServlet;
+                } else if (action.equals("create")) {
+                    url = createUserServlet;
                 }
 
             }
