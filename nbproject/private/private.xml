@@ -4,12 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/index.html</file>
+            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/OrderDetail/DeleteOrderDetailServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DAO/CategoryDAO.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/editUser.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DTO/Order.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DBUtils.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DAO/OrderDetailsDAO.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/UpdateUserServlet.java</file>
+            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/OrderDetail/OrderDetailController.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/landingPage.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/META-INF/context.xml</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Product/CreateProductServlet.java</file>
@@ -20,6 +22,7 @@
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/SignOutServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/editProfile.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DTO/CartItem.java</file>
+            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/OrderDetail/CreateOrderDetailServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Product/ViewProductServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Cart/CartController.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/LoginServlet.java</file>
@@ -35,15 +38,16 @@
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/CategoryManagement.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Product/ProductController.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DAO/CustomerDAO.java</file>
+            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/OrderDetail/UpdateOrderDetailServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Order/CreateOrderServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/createProduct.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/viewCart.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Cart/AddToCartServlet.java</file>
+            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/confirmOrder.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/ViewUserServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/login.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/createUser.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Cart/RemoveFromCartServlet.java</file>
-            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/AuthenticationFilter/AuthenticationFilter.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/Order/DeleteOrderServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/editOrder.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/SupplierManagement.jsp</file>
@@ -62,6 +66,7 @@
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/register.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Model/DTO/Product.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/RegisterServlet.java</file>
+            <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/OrderDetail/ViewOrderDetailServlet.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/web/userOrders.jsp</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/UserController.java</file>
             <file>file:/C:/Users/TRUNG%20VI/OneDrive/Documents/NetBeansProjects/AssignMentPizzaWebsite/src/java/Controllers/User/DeleteUserServlet.java</file>

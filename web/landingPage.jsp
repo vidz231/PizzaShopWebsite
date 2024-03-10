@@ -13,7 +13,9 @@
         <title>Home</title>
     </head>
     <body>
-
+        //TODO:add an option to make user add contact info and phone to become the user
+        //TODO:add add an option to detect if user is not customer when placing order then redirect to field in the form 
+        //TODO:add an option to view order details in in for both user and admin
         <jsp:include page="Header.jsp"/>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">

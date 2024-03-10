@@ -34,7 +34,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @WebServlet(name = "CreateOrderServlet", urlPatterns = {"/CreateOrderServlet"})
 public class CreateOrderServlet extends HttpServlet {
 
-    private final String createOrderPage = "createOrder.jsp";
+    private final String createOrderPage = "viewCart.jsp";
     private final String confirmShippingPage = "confirmOrder.jsp";
 
     /**
