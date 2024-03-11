@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/AssignMentPizzaWebsite"/>
-                    
+<Context path="/AssignMentPizzaWebsite">
+    <Resource auth="Container"
+                      driverClassName ="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+                      name="MyPizzaShop"  
+                      password="12345"
+                      type="javax.sql.DataSource"
+                      url="jdbc:sqlserver://localhost:1433;database=MyPizzaShop;username=sa;instanceName=SQL2019"/>
+</Context>

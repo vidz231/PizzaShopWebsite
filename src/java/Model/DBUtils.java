@@ -8,6 +8,9 @@ package Model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 /**
  *
@@ -15,20 +18,18 @@ import java.sql.SQLException;
  */
 public class DBUtils {
 
-    private static final String userName = "sa";
-    private static final String password = "12345";
-    private static final String databaseName = "MyPizzaShop";
+    private static final String DATABASE_NAME = "MyPizzaShop";
 
     public static Connection getConnection() throws Exception {
+        Connection cnn;
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionString
-                    = "jdbc:sqlserver://localhost:1433;database=" + databaseName + ";instanceName=SQL2019";
-            //SQL Server Authentication
-            Connection cnn = DriverManager.getConnection(connectionString, userName, password);
+            Context currentContext = new InitialContext();
+            Context tomcatContext = (Context) currentContext.lookup("java:comp/env");
+            DataSource ds = (DataSource) tomcatContext.lookup(DATABASE_NAME);
+            cnn = ds.getConnection();
             return cnn;
-
-        } catch (ClassNotFoundException | SQLException ex) {
+            
+        } catch (SQLException ex) {
             throw ex;
         }
     }
