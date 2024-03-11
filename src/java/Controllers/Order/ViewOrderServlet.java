@@ -6,6 +6,7 @@
 package Controllers.Order;
 
 import Model.DTO.Order;
+import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -47,7 +48,8 @@ public class ViewOrderServlet extends HttpServlet {
         try {
             int customerId = Integer.parseInt(request.getParameter("customerId"));
             orderList = (List<Order>) request.getAttribute("orderList");
-            if (session.getAttribute("customer") == null) {
+            User user = (User) session.getAttribute("user");
+            if (user.getType() == 0) {
                 url = adminOrderPage;
                 request.setAttribute("orderList", orderList);
             } else {

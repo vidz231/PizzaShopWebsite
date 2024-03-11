@@ -23,24 +23,27 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Category
-                    </button>
-                    <ul class="dropdown-menu">
-                        <c:forEach var="category" items="${requestScope.categoryList}">
-                            <li>
-                                <a class="dropdown-item" 
-                                   href="ProductController?action=view&filterByCategory=${category.key}">
-                                    ${category.value.categoryName}
-                                </a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
 
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <div class="dropdown nav-link ">
+                                <button class="dropdown-toggle border-0 bg-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Category
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <c:forEach var="category" items="${requestScope.categoryList}">
+                                        <li>
+                                            <a class="dropdown-item" 
+                                               href="ProductController?action=view&filterByCategory=${category.key}">
+                                                ${category.value.categoryName}
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="ProductController?action=view">Menu</a>
                         </li>
@@ -74,7 +77,7 @@
             <div class="row">
                 <c:forEach var="product" items="${requestScope.productList}">
                     <div class="col-md-3">
-                        <div class="card">
+                        <div class="card mb-3">
                             <img src="${product.productImage}" class="card-img-top" alt="${product.productName}">
                             <div class="card-body">
                                 <h5 class="card-title">${product.productName}</h5>

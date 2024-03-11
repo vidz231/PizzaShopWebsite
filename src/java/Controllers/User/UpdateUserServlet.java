@@ -119,7 +119,7 @@ public class UpdateUserServlet extends HttpServlet {
                         request.setAttribute("message", message);
                         request.setAttribute("user", user);
                         session.setAttribute("user", user);
-                        actionType = request.getParameter("action-type");
+                        actionType = request.getParameter("actionType");
                         if (actionType == null) {
                             url = updateProfilePage;
                         } else if (actionType.equals("update-bill")) {

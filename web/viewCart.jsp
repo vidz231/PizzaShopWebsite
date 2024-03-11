@@ -35,15 +35,20 @@
                                                     <p class="card-text">Unit Price: <span id="unitPrice">${item.unitPrice}</span></p>
                                                 </div>
                                                 <div class="col-4">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <button class="btn btn-outline-secondary" type="button">-</button>
+                                                    <form action="CartController" method="GET">
+                                                        <input type="hidden" name="action" value="update"/>
+                                                        <input type="hidden" name="itemId" value="${item.itemId}"/>
+
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <input class="btn btn-outline-secondary" type="submit" name="updateOps"  value="-"/>
+                                                            </div>
+                                                            <input type="text" class="form-control" id="quantity" value="${item.quantity}" readonly>
+                                                            <div class="input-group-append">
+                                                                <input class="btn btn-outline-secondary" type="submit" name="updateOps"  value="+"/>
+                                                            </div>
                                                         </div>
-                                                        <input type="text" class="form-control" id="quantity" value="${item.quantity}" readonly>
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-secondary" type="button">+</button>
-                                                        </div>
-                                                    </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -61,10 +66,10 @@
                         <div class="card-body">
                             <h5 class="card-title">Order Summary</h5>
                             <p class="card-text">
-                                <strong>Total Items:</strong> <span id="totalItems">${requestScope.itemCount}</span>
+                                <strong>Total Items:</strong> <span id="totalItems">${sessionScope.itemCount}</span>
                             </p>
                             <p class="card-text">
-                                <strong>Subtotal:</strong> <span id="subtotal">${requestScope.subTotal}</span>
+                                <strong>Subtotal:</strong> <span id="subtotal">${sessionScope.subTotal}</span>
                             </p>
                             <div>
                                 <a href="ProductController?action=view" class="btn btn-outline-secondary">Back</a>

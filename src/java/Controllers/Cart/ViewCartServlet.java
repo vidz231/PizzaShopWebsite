@@ -74,8 +74,8 @@ public class ViewCartServlet extends HttpServlet {
                 }
             }
 
-            request.setAttribute("subTotal", subTotal);
-            request.setAttribute("itemCount", itemCount);
+            session.setAttribute("subTotal", subTotal);
+            session.setAttribute("itemCount", itemCount);
             request.setAttribute("cartList", cartList);
         } catch (Exception e) {
             log("error at view cart Servlet : " + e.getMessage());

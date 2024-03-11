@@ -29,7 +29,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">PizzaShop</a>
+                <a class="navbar-brand" href="ProductController?action=view">PizzaShop</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -53,9 +53,9 @@
                                     <label for="txtPassword" class="form-label">Password:</label>
                                     <input type="password" class="form-control" id="txtPassword" name="txtPassword">
                                 </div>
-                                <a href="UserController?action=register" class="d-block text-center">Register here</a>
-                                <p id="errorMessage" class="text-danger text-center"></p>
-                                <button type="submit" class="btn btn-primary btn-block" name="action" value="signin">Sign in</button>
+                                <a href="UserController?action=register" class="d-block text-left">Register here</a>
+                                <p id="errorMessage" class="text-danger text-left"></p>
+                                <button type="submit" class="btn btn-primary d-flex justify-content-center mx-auto" name="action" value="signin">Sign in</button>
                             </form>
                         </div>
                     </div>

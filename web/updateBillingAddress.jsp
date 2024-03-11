@@ -21,6 +21,7 @@
                     <h1 class="text-center my-4">update your billing information</h1>
                     <% User user = (User) session.getAttribute("user");%>
                     <form action="UserController" method="POST" class="mx-auto" style="max-width: 500px;">
+                        <input type="hidden" name="actionType" value="update-bill"/>
                         <input type="hidden" name="userId" value="<%=user.getAccountID()%>">
                         <div class="form-group">
                             <label for="username">Username:</label>
@@ -49,6 +50,24 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-6 mt-5">
+                    <div class="card mt-5">
+                        <div class="card-body ">
+                            <h5 class="card-title">Order Summary</h5>
+                            <p class="card-text">
+                                <strong>Total Items:</strong> <span id="totalItems">${sessionScope.itemCount}</span>
+                            </p>
+                            <p class="card-text">
+                                <strong>Subtotal:</strong> <span id="subtotal">${sessionScope.subTotal}</span>
+                            </p>
+                            <div>
+                                <a href="ProductController?action=view" class="btn btn-outline-secondary">Back</a>
+                                <a href="CartController?action=save" class="btn btn-secondary">Save Cart</a>
+                                <a href="OrderController?action=create" class="btn btn-primary">Place Order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
             </div>
 
         </div>

@@ -25,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -63,11 +66,17 @@ public class CreateOrderServlet extends HttpServlet {
         Order order;
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cartMap;
+        List<String> freightList = new ArrayList<>();
+        freightList.add("grab");
+        freightList.add("shoppe");
+        freightList.add("giao hang nhanh");
+
+        Random random = new Random();
         try {
             cartMap = (HashMap<Integer, CartItem>) session.getAttribute("Cart");
             if (cartMap.isEmpty()) {
                 url = viewCartPage;
-                message ="no item detected in cart";
+                message = "no item detected in cart";
             } else {
 
                 OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
@@ -84,8 +93,9 @@ public class CreateOrderServlet extends HttpServlet {
                     orderDate = Date.valueOf(orderDateLocal);
                     requireDate = Date.valueOf(requireDateLocal);
                     shippedDate = Date.valueOf(shippedDateLocal);
-                    freight = "grab";
-                    shipAddress = "123 hang xanh";
+                    int freightChoice = random.nextInt(3) + 1;
+                    freight = freightList.get(freightChoice - 1);
+                    shipAddress = customer.getAddress();
                     order = new Order(orderID, customer.getId(), orderDate, requireDate, shippedDate, freight, shipAddress);
 
                     OrderDAO orderDAO = new OrderDAO();
@@ -98,6 +108,9 @@ public class CreateOrderServlet extends HttpServlet {
                             orderDetailsDAO.createOrderDetail(orderDetails);
                         }
                         session.removeAttribute("Cart");
+                        session.removeAttribute("itemCount");
+                        session.removeAttribute("subTotal");
+
                         request.setAttribute("message", message);
                     } else {
                         message = "error creating order,pls double check your field and try again";

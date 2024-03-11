@@ -19,7 +19,7 @@
         <div class="container">
             <h1 class="text-center my-4">Edit Profile</h1>
             <% User user = (User) request.getAttribute("user");%>
-            <form action="UserController" method="POST" class="mx-auto" style="max-width: 500px;">
+            <form action="UserController" method="POST" class="border rounded p-3 mx-auto" style="max-width: 500px;">
                 <input type="hidden" name="userId" value="<%=user.getAccountID()%>">
                 <div class="form-group">
                     <label for="username">Username:</label>
@@ -42,7 +42,7 @@
                     <label for="shipAddress">Shipping Address:</label>
                     <input type="text" id="shipAddress" name="shipAddress" value ="${sessionScope.customer.address}"class="form-control">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
                     <input type="submit" name="action" value="update" class="btn btn-primary">
                 </div>

@@ -12,8 +12,17 @@
     </head>
     <body>
         <jsp:include page="Header.jsp"/>
-
-        <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="ProductController?action=view">PizzaShop</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Include your navigation content here -->
+            </div>
+        </nav>
+        <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card">
@@ -39,8 +48,8 @@
                                 <% if (request.getAttribute("message") != null) {%>
                                 <p class="text-danger text-center"><%=request.getAttribute("message")%></p>
                                 <%}%>
-                                <a href="UserController?action=signin" class="d-block text-center">Sign in</a>
-                                <button type="submit" class="btn btn-primary btn-block" name="action" value="register">Register</button>
+                                <a href="UserController?action=signin" class="d-block text-left">Already have an account? Sign in here</a>
+                                <button type="submit" class="btn btn-primary d-flex justify-content-center mx-auto" name="action" value="register">Register</button>
                             </form>
                         </div>
                     </div>
