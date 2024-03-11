@@ -12,6 +12,7 @@ import Model.DTO.Customer;
 import Model.DTO.Order;
 import Model.DTO.OrderDetails;
 import Model.DTO.Product;
+import Utils.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -35,16 +36,7 @@ public class ViewOrderDetailsServlet extends HttpServlet {
     private final String detailsOrderPage = "viewOrderDetails.jsp";
     private final String orderController = "OrderController";
 
-    public HashMap<Integer, Product> getProductMap(List<Product> productList) {
-        HashMap<Integer, Product> productMap = new HashMap<>();
-
-        // Populate the map
-        for (Product product : productList) {
-            productMap.put(product.getProductID(), product);
-        }
-
-        return productMap;
-    }
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,7 +61,7 @@ public class ViewOrderDetailsServlet extends HttpServlet {
         try {
             OrderDetailsDAO orderDetailsDao = new OrderDetailsDAO();
             ProductDAO productDao = new ProductDAO();
-            productMap = getProductMap(productDao.viewAllProduct());
+            productMap = Utility.getProductMap(productDao.viewAllProduct());
             OrderDAO orderDAO = new OrderDAO();
             customer = (Customer) session.getAttribute("customer");
             UUID orderID = UUID.fromString(request.getParameter("orderId"));

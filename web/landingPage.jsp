@@ -81,6 +81,7 @@
                             <img src="${product.productImage}" class="card-img-top" alt="${product.productName}">
                             <div class="card-body">
                                 <h5 class="card-title">${product.productName}</h5>
+                                <p class="card-text">${requestScope.categoryList.get(product.categoryID).description}</p>
                                 <p class="card-text">$ ${product.unitPrice}</p>
                                 <form action="CartController" method="GET">
                                     <input type="hidden" id="itemId" name="itemId" value="${product.productID}">

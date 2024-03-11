@@ -62,6 +62,15 @@
                     </li>
                 </ul>
             </div>
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Function
+                </button>
+                <ul class="dropdown-menu">
+                    <li >
+                        <a class="dropdown-item" href="OrderController?action=view-sale-stats">Sale Stats</a>
+                    </li>
+            </div>
             <a class="btn btn-danger" href="UserController?action=signout">Sign Out</a>
 
         </nav>
