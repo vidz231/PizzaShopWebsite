@@ -20,7 +20,6 @@
                 <thead>
                     <tr>
                         <th>Order ID</th>
-                        <th>Customer ID</th>
                         <th>Order Date</th>
                         <th>Required Date</th>
                         <th>Shipped Date</th>
@@ -33,14 +32,13 @@
                     <c:forEach var="order" items="${requestScope.orderList}">
                         <tr>
                             <td>${order.orderID}</td>
-                            <td>${order.customerID}</td>
                             <td>${order.orderDate}</td>
                             <td>${order.requireDate}</td>
                             <td>${order.shippedDate}</td>
                             <td>${order.freight}</td>
                             <td>${order.shipAddress}</td>
                             <td>
-                                <a href="#">view details</a>
+                                <a href="OrderController?action=view-details&orderId=${order.orderID}">view details</a>
                             </td>
                         </tr>
                     </c:forEach>

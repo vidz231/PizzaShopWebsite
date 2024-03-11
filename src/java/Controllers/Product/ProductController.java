@@ -47,14 +47,13 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("action").toLowerCase();
         String url = viewProductServlet;
         HashMap<Integer, Supplier> supplierList;
         HashMap<Integer, Category> categoryList;
         List<Product> productList;
 
-
         try {
+            String action = request.getParameter("action").toLowerCase();
             SupplierDAO supplierDao = new SupplierDAO();
             CategoryDAO categoryDao = new CategoryDAO();
             ProductDAO productDAO = new ProductDAO();

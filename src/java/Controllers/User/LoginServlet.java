@@ -27,7 +27,6 @@ import org.apache.tomcat.jni.SSLContext;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
     private final String landingPage = "ProductController?action=view";
     private final String adminPage = "ProductController?action=view";
     private final String loginPage = "login.jsp";
@@ -44,7 +43,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = loginServlet;
+        String url = loginPage;
         String message = "";
         String username;
         String password;
@@ -89,6 +88,9 @@ public class LoginServlet extends HttpServlet {
 
         } catch (Exception e) {
             log("error at User controller:  " + e.getMessage());
+            url = loginPage;
+            message ="invalid username or password";
+            request.setAttribute("message", message);
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

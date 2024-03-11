@@ -51,8 +51,9 @@ public class ViewProductServlet extends HttpServlet {
         HashMap<Integer, Category> categoryList;
         List<Product> productList;
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
         try {
+            User user = (User) session.getAttribute("user");
+            
             supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
             productList = (List<Product>) request.getAttribute("productList");
             categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
@@ -62,7 +63,7 @@ public class ViewProductServlet extends HttpServlet {
             if (!productList.isEmpty()) {
                 request.setAttribute("productList", productList);
             }
-            if (user.getType() == 0) {
+            if (user!=null && user.getType() == 0) {
                 url = adminDashBoard;
                 request.setAttribute("supplierList", supplierList);
                 request.setAttribute("categoryList", categoryList);
@@ -76,7 +77,7 @@ public class ViewProductServlet extends HttpServlet {
                     request.setAttribute("searchParam", searchParam);
                 }
             } else {
-                if (!request.getParameter("filterByCategory").isEmpty()) {
+                if (request.getParameter("filterByCategory") != null) {
                     int filterByCategory = Integer.parseInt(request.getParameter("filterByCategory"));
                     productList = productList.stream()
                             .filter(p -> p.getCategoryID() == filterByCategory)

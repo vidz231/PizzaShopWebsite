@@ -28,7 +28,7 @@ public class OrderController extends HttpServlet {
     private final String updateOrderServlet = "UpdateOrderServlet";
     private final String createOrderServlet = "CreateOrderServlet";
     private final String deleteOrderServlet = "DeleteOrderServlet";
-
+    private final String viewOrderDetailsServlet ="ViewOrderDetailsServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -60,6 +60,8 @@ public class OrderController extends HttpServlet {
                 url = deleteOrderServlet;
             }else if(action.equals("create")){
                 url = createOrderServlet;
+            }else if (action.equals("view-details")){
+                url = viewOrderDetailsServlet;
             }
         } catch (Exception e) {
             log("error at user controller: "+e.getMessage());

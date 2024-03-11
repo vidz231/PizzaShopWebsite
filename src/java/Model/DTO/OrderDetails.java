@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * @author TRUNG VI
  */
-public class OrderDetails {
+public class OrderDetails{
 
     private UUID orderID;
     private int productID;
@@ -20,6 +20,9 @@ public class OrderDetails {
 
     public OrderDetails() {
     }
+    
+    
+    
 
     public OrderDetails(UUID orderID, int productID, double unitPrice, int quantity) {
         this.orderID = orderID;

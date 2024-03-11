@@ -44,12 +44,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="ProductController?action=view">Menu</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="UserController?action=update&userId=<c:out value="${sessionScope.user.accountID}"/>">Profiles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="OrderController?action=view&customerId=${sessionScope.customer.id}">Orders</a>
-                        </li>
+                        <c:if test="${sessionScope.user != null}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="UserController?action=update&userId=<c:out value="${sessionScope.user.accountID}"/>">Profiles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="OrderController?action=view&customerId=${sessionScope.customer.id}">Orders</a>
+                            </li>
+                        </c:if>
+
                         <li class="nav-item">
                             <c:if test="${sessionScope.user!=null}">
                                 <a class="nav-link btn btn-danger text-white" href="UserController?action=signout">Sign out</a>

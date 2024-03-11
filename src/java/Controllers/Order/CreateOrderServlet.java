@@ -35,7 +35,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CreateOrderServlet extends HttpServlet {
 
     private final String createOrderPage = "viewCart.jsp";
-    private final String confirmShippingPage = "confirmOrder.jsp";
+    private final String updateBillingAddressPage = "updateBillingAddress.jsp";
+    private final String viewCartPage = "CartController?action=viewCart.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,6 +51,7 @@ public class CreateOrderServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = createOrderPage;
+
         String message;
         UUID orderID;
         int customerID;
@@ -63,34 +65,45 @@ public class CreateOrderServlet extends HttpServlet {
         HashMap<Integer, CartItem> cartMap;
         try {
             cartMap = (HashMap<Integer, CartItem>) session.getAttribute("Cart");
-            OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
-            OrderDetails orderDetails;
-            Customer customer = (Customer)session.getAttribute("customer");
-            orderID = UUID.randomUUID();
-            LocalDate orderDateLocal = LocalDate.now();
-            LocalDate requireDateLocal = orderDateLocal.plus(15, ChronoUnit.DAYS);
-            LocalDate shippedDateLocal = orderDateLocal.plus(ThreadLocalRandom.current().nextInt(1, 31), ChronoUnit.DAYS);
-            orderDate = Date.valueOf(orderDateLocal);
-            requireDate = Date.valueOf(requireDateLocal);
-            shippedDate = Date.valueOf(shippedDateLocal);
-            freight = "grab";
-            shipAddress = "123 hang xanh";
-            order = new Order(orderID, customer.getId(), orderDate, requireDate, shippedDate, freight, shipAddress);
-
-            OrderDAO orderDAO = new OrderDAO();
-            request.setAttribute("order", order);
-            if (orderDAO.createOrder(order)) {
-                message = "order created successfully";
-                for (Map.Entry<Integer, CartItem> entry : cartMap.entrySet()) {
-                    CartItem value = entry.getValue();
-                    orderDetails = new OrderDetails(orderID,  value.getItemId(), value.getUnitPrice(), value.getQuantity());
-                    orderDetailsDAO.createOrderDetail(orderDetails);
-                }
-                session.removeAttribute("Cart");
-                request.setAttribute("message", message);
+            if (cartMap.isEmpty()) {
+                url = viewCartPage;
+                message ="no item detected in cart";
             } else {
-                message = "error creating order,pls double check your field and try again";
-                request.setAttribute("message", message);
+
+                OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
+                OrderDetails orderDetails;
+                Customer customer = (Customer) session.getAttribute("customer");
+                if (customer == null) {
+                    url = updateBillingAddressPage;
+                } else {
+
+                    orderID = UUID.randomUUID();
+                    LocalDate orderDateLocal = LocalDate.now();
+                    LocalDate requireDateLocal = orderDateLocal.plus(15, ChronoUnit.DAYS);
+                    LocalDate shippedDateLocal = orderDateLocal.plus(ThreadLocalRandom.current().nextInt(1, 31), ChronoUnit.DAYS);
+                    orderDate = Date.valueOf(orderDateLocal);
+                    requireDate = Date.valueOf(requireDateLocal);
+                    shippedDate = Date.valueOf(shippedDateLocal);
+                    freight = "grab";
+                    shipAddress = "123 hang xanh";
+                    order = new Order(orderID, customer.getId(), orderDate, requireDate, shippedDate, freight, shipAddress);
+
+                    OrderDAO orderDAO = new OrderDAO();
+                    request.setAttribute("order", order);
+                    if (orderDAO.createOrder(order)) {
+                        message = "order created successfully";
+                        for (Map.Entry<Integer, CartItem> entry : cartMap.entrySet()) {
+                            CartItem value = entry.getValue();
+                            orderDetails = new OrderDetails(orderID, value.getItemId(), value.getUnitPrice(), value.getQuantity());
+                            orderDetailsDAO.createOrderDetail(orderDetails);
+                        }
+                        session.removeAttribute("Cart");
+                        request.setAttribute("message", message);
+                    } else {
+                        message = "error creating order,pls double check your field and try again";
+                        request.setAttribute("message", message);
+                    }
+                }
             }
         } catch (Exception e) {
             log("error at create or servlet: " + e.getMessage());

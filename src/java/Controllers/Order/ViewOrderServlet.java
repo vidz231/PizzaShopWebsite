@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ViewOrderServlet", urlPatterns = {"/ViewOrderServlet"})
 public class ViewOrderServlet extends HttpServlet {
 
-    private final String viewOrderPage = "adminDashBoard.jsp";
+    private final String adminOrderPage = "adminDashBoard.jsp";
     private final String userOrderPage = "userOrders.jsp";
 
     /**
@@ -40,10 +40,10 @@ public class ViewOrderServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         List<Order> orderList;
-        String url = viewOrderPage;
+        String url = userOrderPage;
         try {
             orderList = (List<Order>) request.getAttribute("orderList");
-            if (!request.getParameter("customerId").isEmpty()) {
+            if (request.getParameter("customerId")!=null) {
                 int customerId = Integer.parseInt(request.getParameter("customerId"));
                 orderList = orderList.stream()
                         .filter(order -> order.getCustomerID() == customerId)
@@ -51,7 +51,7 @@ public class ViewOrderServlet extends HttpServlet {
                 request.setAttribute("orderList", orderList);
                 url = userOrderPage;
             } else {
-                url = viewOrderPage;
+                url = adminOrderPage;
                 request.setAttribute("orderList", orderList);
             }
         } catch (NumberFormatException e) {
