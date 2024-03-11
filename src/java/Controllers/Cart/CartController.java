@@ -44,26 +44,26 @@ public class CartController extends HttpServlet {
 
         try {
             String action = request.getParameter("action");
-
-            if (session.getAttribute("user") != null) {
-                if (action.equals("view")) {
-                    url = viewCartServlet;
-                } else if (action.equals("add")) {
-                    url = addToCartServlet;
-                } else if (action.equals("update")) {
-                    url = updateCartServlet;
-                } else if (action.equals("delete")) {
-                    url = removeFromCartServlet;
-                } else if (action.equals("save")) {
-                    url = saveCartServlet;
-                }
-            } else {
-                response.sendRedirect("login.jsp");
+            if (action.equals("view")) {
+                url = viewCartServlet;
+            } else if (action.equals("add")) {
+                url = addToCartServlet;
+            } else if (action.equals("update")) {
+                url = updateCartServlet;
+            } else if (action.equals("delete")) {
+                url = removeFromCartServlet;
+            } else if (action.equals("save")) {
+                url = saveCartServlet;
             }
+
         } catch (Exception e) {
             log("error at  Cart Controller: " + e.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            if (session.getAttribute("user") != null) {
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                response.sendRedirect("login.jsp");
+            }
         }
 
     }
