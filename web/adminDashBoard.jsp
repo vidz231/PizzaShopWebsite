@@ -44,9 +44,6 @@
                     <li >
                         <a class="dropdown-item"  href="UserController?action=create">Create User</a>
                     </li>
-                    <li>
-                        <a class="dropdown-item"  href="OrderController?action=create">Create Order</a>
-                    </li>
                 </ul>
             </div>
             <div class="dropdown">
@@ -150,8 +147,8 @@
                             <tr>
                                 <th>Account ID</th>
                                 <th>Username</th>
-                                <th>Password    </th>
-                                <th>Full Name</th>
+                                <th>Full Name </th>
+                                <th>Password</th>
                                 <th>Type</th>
                                 <th>Action</th>
                             </tr>

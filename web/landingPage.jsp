@@ -11,11 +11,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
     </head>
     <body>
-        //TODO:add an option to make user add contact info and phone to become the user
-        //TODO:add add an option to detect if user is not customer when placing order then redirect to field in the form 
-        //TODO:add an option to view order details in in for both user and admin
         <jsp:include page="Header.jsp"/>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -49,7 +49,7 @@
                                 <a class="nav-link" href="UserController?action=update&userId=<c:out value="${sessionScope.user.accountID}"/>">Profiles</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="OrderController?action=view&customerId=${sessionScope.customer.id}">Orders</a>
+                                <a class="nav-link" aria-current="page" href="OrderController?action=view&customerId=${sessionScope.customer.id != null?sessionScope.customer.id:0}">Orders</a>
                             </li>
                         </c:if>
 
@@ -97,5 +97,8 @@
 
         <jsp:include page="footer.jsp"/>
 
+        <script>
+            // TODO: Add your JavaScript code here
+        </script>
     </body>
 </html>

@@ -48,6 +48,7 @@ public class UpdateUserServlet extends HttpServlet {
         User user;
         HttpSession session = request.getSession();
         User sessionUser = (User) session.getAttribute("user");
+        String actionType;
         try {
             if (sessionUser.getType() == 0) {
                 int id = Integer.parseInt(request.getParameter("userId"));
@@ -93,15 +94,12 @@ public class UpdateUserServlet extends HttpServlet {
                     long phone = Long.parseLong(request.getParameter("phone"));
                     String address = request.getParameter("shipAddress");
 
-                    if (!request.getParameter("phone").isEmpty() || !request.getParameter("shipAddress").isEmpty()) {
+                    if (request.getParameter("phone") != null || request.getParameter("shipAddress") != null) {
                         CustomerDAO customerDao = new CustomerDAO();
                         Customer customer = new Customer(accountID, password, fullName, address, phone);
                         if (customerDao.getUserByID(accountID) == null) {
-                            log("hihi3");
                             if (customerDao.createCustomer(customer)) {
                                 message = "update profile succesfully";
-                                log("hihi2");
-
                                 request.setAttribute("message", message);
                             }
                         } else {
@@ -121,11 +119,18 @@ public class UpdateUserServlet extends HttpServlet {
                         request.setAttribute("message", message);
                         request.setAttribute("user", user);
                         session.setAttribute("user", user);
+                        actionType = request.getParameter("action-type");
+                        if (actionType == null) {
+                            url = updateProfilePage;
+                        } else if (actionType.equals("update-bill")) {
+                            url = "updateBillingAddress.jsp";
+                        }
                     } else {
                         request.setAttribute("user", user);
                         message = "error updating user,double check your field and try again.";
                         request.setAttribute("message", message);
                     }
+
                 }
 
             }

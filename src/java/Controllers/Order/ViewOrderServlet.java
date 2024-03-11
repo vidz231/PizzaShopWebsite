@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -25,6 +26,7 @@ public class ViewOrderServlet extends HttpServlet {
 
     private final String adminOrderPage = "adminDashBoard.jsp";
     private final String userOrderPage = "userOrders.jsp";
+    private final String productController = "ProductController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,21 +40,29 @@ public class ViewOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        String message;
         List<Order> orderList;
-        String url = userOrderPage;
+        String url = adminOrderPage;
+        HttpSession session = request.getSession();
         try {
+            int customerId = Integer.parseInt(request.getParameter("customerId"));
             orderList = (List<Order>) request.getAttribute("orderList");
-            if (request.getParameter("customerId")!=null) {
-                int customerId = Integer.parseInt(request.getParameter("customerId"));
-                orderList = orderList.stream()
-                        .filter(order -> order.getCustomerID() == customerId)
-                        .collect(Collectors.toList());
-                request.setAttribute("orderList", orderList);
-                url = userOrderPage;
-            } else {
+            if (session.getAttribute("customer") == null) {
                 url = adminOrderPage;
                 request.setAttribute("orderList", orderList);
+            } else {
+                if (customerId == 0) {
+                    url = productController + "?action=view";
+                    message = "no order found try again when you have an order available!";
+                    request.setAttribute("message", message);
+                } else {
+                    orderList = orderList.stream()
+                            .filter(order -> order.getCustomerID() == customerId)
+                            .collect(Collectors.toList());
+                    request.setAttribute("orderList", orderList);
+                    url = userOrderPage;
+
+                }
             }
         } catch (NumberFormatException e) {
             log("error at view order servlet: " + e.getMessage());

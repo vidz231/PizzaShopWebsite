@@ -17,9 +17,7 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col">
-                    <h1 class="text-center">
-                        Cart
-                    </h1>
+                    <h1 class="display-4">Cart</h1>
                 </div>
             </div>
 
@@ -27,9 +25,8 @@
                 <div class="col-6">
                     <c:choose>
                         <c:when test="${requestScope.cartList != null}">
-
                             <c:forEach var="item" items="${requestScope.cartList}">
-                                <div class="card">
+                                <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="container">
                                             <div class="row">
@@ -50,16 +47,14 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <h1>cart is empty</h1>
+                            <h1 class="display-4">Cart is empty</h1>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
                 <div class="col-6">
                     <div class="card">
@@ -75,7 +70,6 @@
                                 <a href="ProductController?action=view" class="btn btn-outline-secondary">Back</a>
                                 <a href="CartController?action=save" class="btn btn-secondary">Save Cart</a>
                                 <a href="OrderController?action=create" class="btn btn-primary">Place Order</a>
-                                
                             </div>
                         </div>
                     </div>

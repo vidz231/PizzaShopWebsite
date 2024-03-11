@@ -48,7 +48,7 @@ public class OrderController extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             orderList = orderDao.viewAllOrder();
-            System.out.println(orderList.toString());
+//            System.out.println(orderList.toString());
             if(!orderList.isEmpty()){
                 request.setAttribute("orderList", orderList);
             }

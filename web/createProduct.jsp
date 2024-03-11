@@ -11,72 +11,69 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Product</title>
+        <jsp:include page="Header.jsp"/>
     </head>
     <body>
-        <jsp:include page="Header.jsp"/>
 
         <% HashMap<Integer, Supplier> supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
             HashMap<Integer, Category> categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
         %>
-        <div class="container-fluid ">
-            <h1 class="text-center">Create Product</h1>
-            <div class="row justify-content-center"> 
-                <div class="col-6">
-
-                    <form action="ProductController?action=create" method="POST" >
-                        <div class="form-group">
-                            <label for="productName">Product Name:</label>
-                            <input type="text" name="productName" id="productName" class="form-control"/>
+        <div class="container">
+            <h1 class="text-center mt-5">Create Product</h1>
+            <div class="row justify-content-center">
+                <div class="col-md-6   border rounded p-3">
+                    <form action="ProductController?action=create" method="POST" class="mt-4">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name:</label>
+                            <input type="text" name="productName" id="productName" class="form-control" required>
+                            <div class="invalid-feedback">Please provide a product name.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="supplierID">Supplier:</label>
-                            <select name="supplierID" id="supplierID" class="form-control">
+                        <div class="mb-3">
+                            <label for="supplierID" class="form-label">Supplier:</label>
+                            <select name="supplierID" id="supplierID" class="form-select" required>
+                                <option value="" disabled selected>Select Supplier</option>
                                 <% for (Supplier supplier : supplierList.values()) {%>
                                 <option value="<%=supplier.getSupplierID()%>"><%=supplier.getCompanyName()%></option>
                                 <% } %>
                             </select>
+                            <div class="invalid-feedback">Please select a supplier.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="categoryID">Category:</label>
-                            <select name="categoryID" id="categoryID" class="form-control">
+                        <div class="mb-3">
+                            <label for="categoryID" class="form-label">Category:</label>
+                            <select name="categoryID" id="categoryID" class="form-select" required>
+                                <option value="" disabled selected>Select Category</option>
                                 <% for (Category category : categoryList.values()) {%>
                                 <option value="<%=category.getCategoryID()%>"><%=category.getCategoryName()%></option>
-                                <% }%>
+                                <% } %>
                             </select>
+                            <div class="invalid-feedback">Please select a category.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="quantityPerUnit">Quantity Per Unit:</label>
-                            <input type="number" name="quantityPerUnit" id="quantityPerUnit" class="form-control"/>
+                        <div class="mb-3">
+                            <label for="quantityPerUnit" class="form-label">Quantity Per Unit:</label>
+                            <input type="number" name="quantityPerUnit" id="quantityPerUnit" class="form-control" required>
+                            <div class="invalid-feedback">Please provide the quantity per unit.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="UnitPrice">Unit Price:</label>
-                            <input type="number" step="0.01" name="UnitPrice" id="UnitPrice" class="form-control"/>
+                        <div class="mb-3">
+                            <label for="UnitPrice" class="form-label">Unit Price:</label>
+                            <input type="number" step="0.01" name="UnitPrice" id="UnitPrice" class="form-control" required>
+                            <div class="invalid-feedback">Please provide the unit price.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="productImage">Product Image:</label>
-                            <input type="text" name="productImage" id="productImage" class="form-control"/>
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">Product Image:</label>
+                            <input type="text" name="productImage" id="productImage" class="form-control" required>
+                            <div class="invalid-feedback">Please provide a product image URL.</div>
                         </div>
                         <% if (request.getAttribute("message") != null) {%>
-                        <div class="alert alert-success fixed-top text-center mt-3" id="alert-message" style="margin-left: auto; margin-right: auto; left: 0; right: 0; width: 200px;">
+                        <div class="alert alert-success mb-3" role="alert">
                             <%=request.getAttribute("message")%>
                         </div>
-                        <%}%>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                setTimeout(function () {
-                                    var alertMessage = document.getElementById('alert-message');
-                                    alertMessage.style.opacity = "0";
-                                    setTimeout(function () {
-                                        alertMessage.style.display = "none";
-                                    }, 1000); // waits for the fade out animation to finish
-                                }, 2000); // fades out after 2 seconds
-                            });
-                        </script>
-                        <div class="form-group">
+                        <% }%>
+                        <div class="mb-3">
+                            <button type="submit" name="action" value="Create" class="btn btn-primary">Create</button>
                             <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
-                            <input type="submit" name="action" value="Create" class="btn btn-primary"/>
                         </div>
                     </form>
                 </div>
@@ -85,5 +82,22 @@
 
         <jsp:include page="footer.jsp"/>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Client-side form validation
+            (function () {
+                'use strict';
+                var forms = document.querySelectorAll('.needs-validation');
+                Array.prototype.slice.call(forms).forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
     </body>
 </html>
