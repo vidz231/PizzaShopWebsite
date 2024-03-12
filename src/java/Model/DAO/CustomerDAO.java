@@ -63,7 +63,8 @@ public class CustomerDAO {
 
         try {
             cnn = DBUtils.getConnection();
-            String sql = "INSERT INTO Customers(CustomerID,[Password], ContactName, [Address], Phone) VALUES(?,?,?,?,?)";
+            String sql = "INSERT INTO Customers(CustomerID,[Password], ContactName, [Address], Phone) "
+                    + " VALUES(?,?,?,?,?)";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, customer.getId());
             preStm.setString(2, customer.getPassword());

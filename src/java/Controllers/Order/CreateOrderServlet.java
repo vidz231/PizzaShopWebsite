@@ -7,10 +7,13 @@ package Controllers.Order;
 
 import Model.DAO.OrderDAO;
 import Model.DAO.OrderDetailsDAO;
+import Model.DAO.ProductDAO;
 import Model.DTO.CartItem;
 import Model.DTO.Customer;
 import Model.DTO.Order;
 import Model.DTO.OrderDetails;
+import Model.DTO.Product;
+import Utils.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -97,8 +100,10 @@ public class CreateOrderServlet extends HttpServlet {
                     freight = freightList.get(freightChoice - 1);
                     shipAddress = customer.getAddress();
                     order = new Order(orderID, customer.getId(), orderDate, requireDate, shippedDate, freight, shipAddress);
-
+                    Product product;
                     OrderDAO orderDAO = new OrderDAO();
+                    ProductDAO productDao = new ProductDAO();
+                    HashMap<Integer, Product> productMap = Utility.getProductMap(productDao.viewAllProduct());
                     request.setAttribute("order", order);
                     if (orderDAO.createOrder(order)) {
                         message = "order created successfully";
@@ -106,6 +111,9 @@ public class CreateOrderServlet extends HttpServlet {
                             CartItem value = entry.getValue();
                             orderDetails = new OrderDetails(orderID, value.getItemId(), value.getUnitPrice(), value.getQuantity());
                             orderDetailsDAO.createOrderDetail(orderDetails);
+                            product = productMap.get(value.getItemId());
+                            product.setQuantityPerUnit(product.getQuantityPerUnit() - value.getQuantity());
+                            productDao.updateProduct(product);
                         }
                         session.removeAttribute("Cart");
                         session.removeAttribute("itemCount");

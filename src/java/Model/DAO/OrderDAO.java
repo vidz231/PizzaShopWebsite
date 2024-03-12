@@ -151,7 +151,6 @@ public class OrderDAO {
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, id.toString());
             preStm.setString(2, id.toString());
-
             return preStm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println("error at delete Order:   " + e.getMessage());

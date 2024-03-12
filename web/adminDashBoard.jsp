@@ -228,7 +228,7 @@
                                 <td><%= order.getShipAddress()%></td>
                                 <td>
                                     <!-- Add your action buttons or links here -->
-                                    <a class="btn btn-primary" href="OrderController?action=update&orderId=<%= order.getOrderID()%>">Edit</a> |
+                                    <a class="btn btn-primary btn-sm" href="OrderController?action=view-details&orderId=<%= order.getOrderID()%>">Details</a> |
                                     <!-- Button trigger modal -->
                                     <a href="#" class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal<%= order.getOrderID()%>">
                                         Delete

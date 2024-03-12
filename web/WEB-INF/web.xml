@@ -6,7 +6,8 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>ProductController</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
+        
     </welcome-file-list>
     <resource-ref>
         <res-ref-name>DBcon</res-ref-name>
