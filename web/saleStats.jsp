@@ -56,7 +56,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li >
-                        <a class="dropdown-item" href="saleStats.jsp">Sale Stats</a>
+                        <a class="dropdown-item" href="OrderController?action=view-sale-stats">Sale Stats</a>
                     </li>
             </div>
             <a class="btn btn-danger" href="UserController?action=signout">Sign Out</a>

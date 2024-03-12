@@ -144,10 +144,14 @@ public class OrderDAO {
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "DELETE FROM Orders "
-                    + "WHERE OrderID =?";
+            String sql = "BEGIN TRANSACTION; "
+                    + "DELETE FROM OrderDetails WHERE OrderID = ?; "
+                    + "DELETE FROM Orders WHERE OrderID = ?; "
+                    + "COMMIT; ";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, id.toString());
+            preStm.setString(2, id.toString());
+
             return preStm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println("error at delete Order:   " + e.getMessage());

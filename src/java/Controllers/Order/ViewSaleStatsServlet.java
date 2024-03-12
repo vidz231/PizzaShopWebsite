@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +61,7 @@ public class ViewSaleStatsServlet extends HttpServlet {
             ProductDAO productDao = new ProductDAO();
             HashMap<Integer, Product> productMap = Utility.getProductMap(productDao.viewAllProduct());
             CustomQueryHandlerDAO customQueryDao = new CustomQueryHandlerDAO();
-            List<TotalSale> totalSaleList = customQueryDao.getAllProduct();
+            List<TotalSale> totalSaleList = customQueryDao.getTotalQuanitySoldByDay();
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 startDate = Date.valueOf(localDate);
                 endDate = Date.valueOf(localDate);
@@ -72,7 +73,7 @@ public class ViewSaleStatsServlet extends HttpServlet {
                     .filter(ts -> ts.getOrderDate().getTime() <= endDate.getTime()
                     && ts.getOrderDate().getTime() >= startDate.getTime())
                     .collect(Collectors.toList());
-            totalSaleList.sort((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()));
+            totalSaleList.sort(Comparator.comparing(TotalSale::getToltalSale).reversed());
             request.setAttribute("startDate", startDate);
             request.setAttribute("endDate", endDate);
             request.setAttribute("productMap", productMap);

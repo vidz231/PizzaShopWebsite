@@ -94,7 +94,7 @@ public class UpdateUserServlet extends HttpServlet {
                     long phone = Long.parseLong(request.getParameter("phone"));
                     String address = request.getParameter("shipAddress");
 
-                    if (request.getParameter("phone") != null || request.getParameter("shipAddress") != null) {
+                    if (request.getParameter("phone") != null && request.getParameter("shipAddress") != null) {
                         CustomerDAO customerDao = new CustomerDAO();
                         Customer customer = new Customer(accountID, password, fullName, address, phone);
                         if (customerDao.getUserByID(accountID) == null) {

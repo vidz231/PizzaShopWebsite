@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class CustomQueryHandlerDAO {
 
-    public List<TotalSale> getAllProduct() throws Exception {
+    public List<TotalSale> getTotalQuanitySoldByDay() throws Exception {
         Connection cnn = null;
         PreparedStatement preStm = null;
         ResultSet rs = null;
