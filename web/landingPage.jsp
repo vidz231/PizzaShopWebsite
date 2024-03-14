@@ -66,52 +66,68 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-4 justify-content-center d-flex justify-content-center mt-3">
+                <div class="col-4 justify-content-center d-flex justify-content-center">
                     <form action="ProductController" method="GET">
                         <input type="hidden" name="action" value="view"/>
-                        <input type="search" id ="searchParam"value="<c:out value="${requestScope.searchParam }"/>"  name="searchParam"/>
-                        <input type="submit" class="btn btn-secondary"value="🔎"/>
+                        <input type="search" id ="searchParam" placeholder="search pizza here :3"   value="<c:out value="${requestScope.searchParam }"/>"  name="searchParam"/>
+                        <!--search button below-->
+                        <input type="submit" class="btn btn-secondary btn-sm"value="🔎" />
                     </form>
                 </div>
             </div>
         </nav>
         <div class="container">
-            <div class="row mt-3 mb-3">
-                <div class="col-2 justify-content-center d-flex justify-content-center mt-3">
-                    <a class="btn btn-primary" href="CartController?action=view">view cart</a>
-                </div>
+            <div class="row mt-3">
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-12 justify-content-center d-flex justify-content-center mt-3">
+                            <!--Cart button below-->
 
-                <div class="col-4 justify-content-center d-flex justify-content-center mt-3">
-                    <form action="ProductController" method="GET">
-                        <input type="hidden" name="action" value="view"/>
-                        <label for="minPrice"><b>Min Price:</b></label>
-                        <input type="number" min="0" id="minPrice" value="<c:out value="${requestScope.searchMinPrice}"/>"  name="searchMinPrice"/>
-                        <input type="submit" class="btn btn-secondary"value="search"/>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <c:forEach var="product" items="${requestScope.productList}">
-                    <div class="col-md-3">
-                        <div class="card mb-3">
-                            <img src="${product.productImage}" class="card-img-top" alt="${product.productName}">
-                            <div class="card-body">
-                                <h5 class="card-title">${product.productName}</h5>
-                                <p class="card-text">${requestScope.categoryList.get(product.categoryID).description}</p>
-                                <p class="card-text">$ ${product.unitPrice}</p>
-                                <form action="CartController" method="GET">
-                                    <input type="hidden" id="itemId" name="itemId" value="${product.productID}">
-                                    <input type="hidden" id="itemName" name="itemName" value="${product.productName}">
-                                    <input type="hidden" id="quantity" name="quantity" value="1">
-                                    <input type="hidden" id="unitPrice" name="unitPrice" value="${product.unitPrice}">
-                                    <input type="hidden" id="filterByCategory" name="filterByCategory" value="${requestScope.filterByCategory}">
-                                    <input type="hidden" id="action" name="action" value="add">
-                                    <input class="btn btn-primary   " type="submit" value="Add to Cart">
-                                </form>
-                            </div>
+                            <a class="btn btn-primary" href="CartController?action=view">🛒</a>
                         </div>
+
+
+                        <form action="ProductController" method="GET" class="row">
+                            <input type="hidden" name="action" value="view"/>
+
+                            <label for="minPrice" class="col-12 mb-2    "><b>Min Price:</b></label>
+                            <div class="col-md-8">
+                                <input type="number" placeholder="enter min price here!" min="0" id="minPrice" value="<c:out value="${requestScope.searchMinPrice}"/>"  name="searchMinPrice"/>
+                            </div>
+                            <div class="col-md-4 ">
+                                <input type="submit" class="btn btn-secondary mx-auto btn-sm"  value="search"/>
+                            </div>
+                        </form>
+
+
+
                     </div>
-                </c:forEach>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <c:forEach var="product" items="${requestScope.productList}">
+                            <div class="col-md-3">
+                                <div class="card mb-3">
+                                    <img src="${product.productImage}" class="card-img-top" alt="${product.productName}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${product.productName}</h5>
+                                        <p class="card-text">${requestScope.categoryList.get(product.categoryID).description}</p>
+                                        <p class="card-text">$ ${product.unitPrice}</p>
+                                        <form action="CartController" method="GET">
+                                            <input type="hidden" id="itemId" name="itemId" value="${product.productID}">
+                                            <input type="hidden" id="itemName" name="itemName" value="${product.productName}">
+                                            <input type="hidden" id="quantity" name="quantity" value="1">
+                                            <input type="hidden" id="unitPrice" name="unitPrice" value="${product.unitPrice}">
+                                            <input type="hidden" id="filterByCategory" name="filterByCategory" value="${requestScope.filterByCategory}">
+                                            <input type="hidden" id="action" name="action" value="add">
+                                            <input class="btn btn-primary   " type="submit" value="Add to Cart">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
             </div>
         </div>
 
