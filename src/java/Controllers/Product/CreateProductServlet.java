@@ -60,7 +60,7 @@ public class CreateProductServlet extends HttpServlet {
             } else {
                 Product p;
                 String productName = request.getParameter("productName");
-                if (!productName.matches("^[A-Z]*$")) {
+                if (!productName.matches("^[A-Z].*$")) {
                     isError = true;
                     productError.setProductNameError("Product name must start with a capital letter");
                 }
@@ -71,7 +71,7 @@ public class CreateProductServlet extends HttpServlet {
                     isError = true;
                     productError.setQuantityPerUnitError("Quantity must be greater than 0");
                 }
-                double unitPrice = Double.parseDouble(request.getParameter("UnitPrice"));
+                float unitPrice = Float.parseFloat(request.getParameter("UnitPrice"));
                 if (unitPrice < 0) {
                     isError = true;
                     productError.setUnitPriceError("Unit price must greater than 0");
@@ -81,16 +81,19 @@ public class CreateProductServlet extends HttpServlet {
                     isError = true;
                     productError.setProductImageError("please enter a valid image url");
                 }
+                p = new Product(0, productName, supplierID, categoryID, quantityPerUnit, unitPrice, productImage);
+
                 if (isError == false) {
                     ProductDAO productDao = new ProductDAO();
-                    p = new Product(0, productName, supplierID, categoryID, quantityPerUnit, supplierID, productImage);
                     if (productDao.createProduct(p)) {
                         message = "product created succesfully";
                         request.setAttribute("message", message);
                     }
                 } else {
-                        request.setAttribute("productError", productError);
-                        request.setAttribute("isError", isError);
+                    request.setAttribute("productError", productError);
+                    request.setAttribute("isError", isError);
+                    request.setAttribute("product", p);
+
                 }
 
             }

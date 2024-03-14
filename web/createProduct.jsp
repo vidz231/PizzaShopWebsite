@@ -29,7 +29,7 @@
                     <form action="ProductController?action=create" method="POST" class="mt-4">
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name:</label>
-                            <input type="text" name="productName" id="productName" class="form-control" required>
+                            <input type="text" name="productName" id="productName" value="${requestScope.product.productName}" class="form-control" required>
                             <div class="invalid-feedback">Please provide a product name.</div>
                             <c:if test="${requestScope.isError == true}">
                                 <p class="text-danger">${requestScope.productError.productNameError}</p>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="quantityPerUnit" class="form-label">Quantity Per Unit:</label>
-                            <input type="number" name="quantityPerUnit" id="quantityPerUnit" class="form-control" required>
+                            <input type="number" name="quantityPerUnit" value="${requestScope.product.quantityPerUnit}" id="quantityPerUnit" class="form-control" required>
                             <div class="invalid-feedback">Please provide the quantity per unit.</div>
                             <c:if test="${requestScope.isError == true}">
                                 <p class="text-danger">${requestScope.productError.quantityPerUnitError}</p>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="UnitPrice" class="form-label">Unit Price:</label>
-                            <input type="number" step="0.01" name="UnitPrice" id="UnitPrice" class="form-control" required>
+                            <input type="number" step="0.01" value="${requestScope.product.unitPrice}" name="UnitPrice" id="UnitPrice" class="form-control" required>
                             <div class="invalid-feedback">Please provide the unit price.</div>
                             <c:if test="${requestScope.isError == true}">
                                 <p class="text-danger">${requestScope.productError.unitPriceError}</p>
@@ -73,7 +73,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="productImage" class="form-label">Product Image:</label>
-                            <input type="text" name="productImage" id="productImage" class="form-control" required>
+                            <input type="text" name="productImage" id="productImage" value="${requestScope.product.productImage}" class="form-control" required>
                             <div class="invalid-feedback">Please provide a product image URL.</div>
                             <c:if test="${requestScope.isError == true}">
                                 <p class="text-danger">${requestScope.productError.productImageError}</p>
@@ -85,8 +85,8 @@
                         </div>
                         <% }%>
                         <div class="mb-3">
-                            <button type="submit" name="action" value="Create" class="btn btn-primary">Create</button>
                             <a href="ProductController?action=view" class="btn btn-secondary">Back</a>
+                            <button type="submit" name="action" value="Create" class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>
