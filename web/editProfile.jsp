@@ -36,7 +36,7 @@
 
                 <div class="form-group">
                     <label for="phone">Phone:</label>
-                    <input type="number" id="phone" name="phone" value="<c:out value="${sessionScope.customer.phone}"/>"  class="form-control">
+                    <input type="number" id="phone" name="phone" value="<c:out value="0${sessionScope.customer.phone}"/>"  class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="shipAddress">Shipping Address:</label>

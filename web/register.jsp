@@ -3,6 +3,7 @@
     Created on : Mar 7, 2024, 2:52:36 PM
     Author     : TRUNG VI
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,23 +32,32 @@
                             <form action="UserController" method="POST">
                                 <div class="mb-3">
                                     <label for="txtUserName" class="form-label">Username:</label>
-                                    <input type="text" class="form-control" id="txtUserName" name="txtUserName">
+                                    <input type="text" class="form-control" id="txtUserName" value="${requestScope.user.username}" name="txtUserName">
+                                    <c:if test="${requestScope.isError==true}">
+                                        <p class="text-danger">${requestScope.userError.usernameError}</p>
+                                    </c:if>
                                 </div>
                                 <div class="mb-3">
                                     <label for="txtPassword" class="form-label">Password:</label>
-                                    <input type="password" class="form-control" id="txtPassword" name="txtPassword">
+                                    <input type="password" class="form-control" id="txtPassword" value="${requestScope.user.password}" name="txtPassword">
+                                    <c:if test="${requestScope.isError==true}">
+                                        <p class="text-danger">${requestScope.userError.passwordError}</p>
+                                    </c:if>
                                 </div>
                                 <div class="mb-3">
                                     <label for="txtConfirmPassword" class="form-label">Confirm Password:</label>
                                     <input type="password" class="form-control" id="txtConfirmPassword" name="txtConfirmPassword">
+                                    <c:if test="${requestScope.isError==true}">
+                                        <p class="text-danger">${requestScope.userError.matchedPasswordError}</p>
+                                    </c:if>
                                 </div>
                                 <div class="mb-3">
                                     <label for="txtFullName" class="form-label">Full Name:</label>
-                                    <input type="text" class="form-control" id="txtFullName" name="txtFullName">
+                                    <input type="text" class="form-control" id="txtFullName" name="txtFullName" value="${requestScope.user.fullName}">
+                                    <c:if test="${requestScope.isError==true}">
+                                        <p class="text-danger">${requestScope.userError.fullNameError}</p>
+                                    </c:if>
                                 </div>
-                                <% if (request.getAttribute("message") != null) {%>
-                                <p class="text-danger text-center"><%=request.getAttribute("message")%></p>
-                                <%}%>
                                 <a href="UserController?action=signin" class="d-block text-left">Already have an account? Sign in here</a>
                                 <button type="submit" class="btn btn-primary d-flex justify-content-center mx-auto" name="action" value="register">Register</button>
                             </form>

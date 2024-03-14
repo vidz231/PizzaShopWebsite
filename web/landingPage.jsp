@@ -45,7 +45,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ProductController?action=view">Menu</a>
+                            <a class="nav-link" href="ProductController?action=view">View all Menu</a>
                         </li>
                         <c:if test="${sessionScope.user != null}">
                             <li class="nav-item">
@@ -66,12 +66,28 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-4 justify-content-center d-flex justify-content-center mt-3">
+                    <form action="ProductController" method="GET">
+                        <input type="hidden" name="action" value="view"/>
+                        <input type="search" id ="searchParam"value="<c:out value="${requestScope.searchParam }"/>"  name="searchParam"/>
+                        <input type="submit" class="btn btn-secondary"value="🔎"/>
+                    </form>
+                </div>
             </div>
         </nav>
         <div class="container">
             <div class="row mt-3 mb-3">
-                <div class="col-6">
+                <div class="col-2 justify-content-center d-flex justify-content-center mt-3">
                     <a class="btn btn-primary" href="CartController?action=view">view cart</a>
+                </div>
+
+                <div class="col-4 justify-content-center d-flex justify-content-center mt-3">
+                    <form action="ProductController" method="GET">
+                        <input type="hidden" name="action" value="view"/>
+                        <label for="minPrice"><b>Min Price:</b></label>
+                        <input type="number" min="0" id="minPrice" value="<c:out value="${requestScope.searchMinPrice}"/>"  name="searchMinPrice"/>
+                        <input type="submit" class="btn btn-secondary"value="search"/>
+                    </form>
                 </div>
             </div>
             <div class="row">

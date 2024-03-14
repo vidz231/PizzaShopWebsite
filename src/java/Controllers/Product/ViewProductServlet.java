@@ -53,7 +53,7 @@ public class ViewProductServlet extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             User user = (User) session.getAttribute("user");
-            
+
             supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
             productList = (List<Product>) request.getAttribute("productList");
             categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
@@ -63,7 +63,7 @@ public class ViewProductServlet extends HttpServlet {
             if (!productList.isEmpty()) {
                 request.setAttribute("productList", productList);
             }
-            if (user!=null && user.getType() == 0) {
+            if (user != null && user.getType() == 0) {
                 url = adminDashBoard;
                 request.setAttribute("supplierList", supplierList);
                 request.setAttribute("categoryList", categoryList);
@@ -77,6 +77,24 @@ public class ViewProductServlet extends HttpServlet {
                     request.setAttribute("searchParam", searchParam);
                 }
             } else {
+                if (request.getParameter("searchParam") != null) {
+                    String searchParam = request.getParameter("searchParam");
+                    String searchMinPrice = request.getParameter("searchMinPrice");
+                    productList = productList.stream().filter(p -> String.valueOf(p.getProductID()).contains(searchParam)
+                            || p.getProductName().toLowerCase().startsWith(searchParam.toLowerCase())
+                           )
+                            .collect(Collectors.toList());
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("searchParam", searchParam);
+                    request.setAttribute("searchminPrice", searchMinPrice);
+                }
+                if (request.getParameter("searchMinPrice") != null) {
+                    int searchMinPrice = Integer.parseInt(request.getParameter("searchMinPrice"));
+                    productList = productList.stream().filter(p -> p.getUnitPrice()>=searchMinPrice)
+                            .collect(Collectors.toList());
+                    request.setAttribute("productList", productList);
+                    request.setAttribute("searchMinPrice", searchMinPrice);
+                }
                 if (request.getParameter("filterByCategory") != null) {
                     int filterByCategory = Integer.parseInt(request.getParameter("filterByCategory"));
                     productList = productList.stream()

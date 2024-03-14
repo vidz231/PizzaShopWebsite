@@ -4,6 +4,7 @@
     Author     : TRUNG VI
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,19 +28,31 @@
                     <form action="UserController?action=create" method="post">
                         <div class="mb-3">
                             <label for="userName" class="form-label">Username:</label>
-                            <input type="text" class="form-control" id="userName" name="userName">
+                            <input type="text" class="form-control" id="userName" name="userName" >
+                            <c:if test="${requestScope.isError ==true}">
+                                <p class="text-danger">${requestScope.userError.usernameError}</p>
+                            </c:if>
                         </div>
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name:</label>
                             <input type="text" class="form-control" id="fullName" name="fullName">
+                            <c:if test="${requestScope.isError ==true}">
+                                <p class="text-danger">${requestScope.userError.fullNameError}</p>
+                            </c:if>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password:</label>
                             <input type="password" class="form-control" id="password" name="password">
+                            <c:if test="${requestScope.isError ==true}">
+                                <p class="text-danger">${requestScope.userError.passwordError}</p>
+                            </c:if>
                         </div>
                         <div class="mb-3">
                             <label for="type" class="form-label">Type:</label>
-                            <input type="number" class="form-control" id="type" name="type">
+                            <select class="form-control" name="type" id="type">
+                                <option value="1">User</option>
+                                <option value="0">Admin</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <a href="UserController?action=view" class="btn btn-secondary">Back</a>

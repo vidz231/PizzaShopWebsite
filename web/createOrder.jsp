@@ -11,10 +11,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Create Product</title>
-        <!-- Bootstrap CSS -->
-        <!-- Custom CSS -->
         <style>
-            /* Add custom styles here */
         </style>
     </head>
     <body>
@@ -63,7 +60,6 @@
         <!-- Footer -->
         <jsp:include page="footer.jsp"/>
 
-        <!-- Bootstrap Bundle with Popper -->
     </body>
 </html>
 

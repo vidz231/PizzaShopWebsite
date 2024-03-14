@@ -4,6 +4,7 @@
     Author     : TRUNG VI
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.HashMap"%>
 <%@page import="Model.DTO.Category"%>
 <%@page import="Model.DTO.Supplier"%>
@@ -30,6 +31,9 @@
                             <label for="productName" class="form-label">Product Name:</label>
                             <input type="text" name="productName" id="productName" class="form-control" required>
                             <div class="invalid-feedback">Please provide a product name.</div>
+                            <c:if test="${requestScope.isError == true}">
+                                <p class="text-danger">${requestScope.productError.productNameError}</p>
+                            </c:if>
                         </div>
                         <div class="mb-3">
                             <label for="supplierID" class="form-label">Supplier:</label>
@@ -55,16 +59,25 @@
                             <label for="quantityPerUnit" class="form-label">Quantity Per Unit:</label>
                             <input type="number" name="quantityPerUnit" id="quantityPerUnit" class="form-control" required>
                             <div class="invalid-feedback">Please provide the quantity per unit.</div>
+                            <c:if test="${requestScope.isError == true}">
+                                <p class="text-danger">${requestScope.productError.quantityPerUnitError}</p>
+                            </c:if>
                         </div>
                         <div class="mb-3">
                             <label for="UnitPrice" class="form-label">Unit Price:</label>
                             <input type="number" step="0.01" name="UnitPrice" id="UnitPrice" class="form-control" required>
                             <div class="invalid-feedback">Please provide the unit price.</div>
+                            <c:if test="${requestScope.isError == true}">
+                                <p class="text-danger">${requestScope.productError.unitPriceError}</p>
+                            </c:if>
                         </div>
                         <div class="mb-3">
                             <label for="productImage" class="form-label">Product Image:</label>
                             <input type="text" name="productImage" id="productImage" class="form-control" required>
                             <div class="invalid-feedback">Please provide a product image URL.</div>
+                            <c:if test="${requestScope.isError == true}">
+                                <p class="text-danger">${requestScope.productError.productImageError}</p>
+                            </c:if>
                         </div>
                         <% if (request.getAttribute("message") != null) {%>
                         <div class="alert alert-success mb-3" role="alert">

@@ -72,8 +72,8 @@ public class ViewSaleStatsServlet extends HttpServlet {
             totalSaleList = totalSaleList.stream()
                     .filter(ts -> ts.getOrderDate().getTime() <= endDate.getTime()
                     && ts.getOrderDate().getTime() >= startDate.getTime())
+                    .sorted(Comparator.comparing(TotalSale::getToltalSale).reversed())
                     .collect(Collectors.toList());
-            totalSaleList.sort(Comparator.comparing(TotalSale::getToltalSale).reversed());
             request.setAttribute("startDate", startDate);
             request.setAttribute("endDate", endDate);
             request.setAttribute("productMap", productMap);

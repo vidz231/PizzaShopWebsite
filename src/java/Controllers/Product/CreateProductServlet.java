@@ -8,6 +8,7 @@ package Controllers.Product;
 import Model.DAO.ProductDAO;
 import Model.DTO.Category;
 import Model.DTO.Product;
+import Model.DTO.ProductError;
 import Model.DTO.Supplier;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,6 +47,8 @@ public class CreateProductServlet extends HttpServlet {
         HashMap<Integer, Supplier> supplierList;
         HashMap<Integer, Category> categoryList;
         List<Product> productList;
+        boolean isError = false;
+        ProductError productError = new ProductError();
         try {
             categoryList = (HashMap<Integer, Category>) request.getAttribute("categoryList");
             supplierList = (HashMap<Integer, Supplier>) request.getAttribute("supplierList");
@@ -55,20 +58,41 @@ public class CreateProductServlet extends HttpServlet {
                 url = createProductPage;
                 System.out.println("processing first time load for view create product");
             } else {
-                ProductDAO productDao = new ProductDAO();
                 Product p;
                 String productName = request.getParameter("productName");
+                if (!productName.matches("^[A-Z]*$")) {
+                    isError = true;
+                    productError.setProductNameError("Product name must start with a capital letter");
+                }
                 int supplierID = Integer.parseInt(request.getParameter("supplierID"));
                 int categoryID = Integer.parseInt(request.getParameter("categoryID"));
                 int quantityPerUnit = Integer.parseInt(request.getParameter("quantityPerUnit"));
-                double unitPrice = Double.parseDouble(request.getParameter("UnitPrice"));
-                String productImage = request.getParameter("productImage");
-                p = new Product(0, productName, supplierID, categoryID, quantityPerUnit, supplierID, productImage);
-                if(productDao.createProduct(p)){
-                    message = "product created succesfully";
-                    request.setAttribute("message", message);
+                if (quantityPerUnit <= 0) {
+                    isError = true;
+                    productError.setQuantityPerUnitError("Quantity must be greater than 0");
                 }
-                
+                double unitPrice = Double.parseDouble(request.getParameter("UnitPrice"));
+                if (unitPrice < 0) {
+                    isError = true;
+                    productError.setUnitPriceError("Unit price must greater than 0");
+                }
+                String productImage = request.getParameter("productImage");
+                if (!productImage.contains("cdn") || !productImage.contains("https") || !productImage.contains("http")) {
+                    isError = true;
+                    productError.setProductImageError("please enter a valid image url");
+                }
+                if (isError == false) {
+                    ProductDAO productDao = new ProductDAO();
+                    p = new Product(0, productName, supplierID, categoryID, quantityPerUnit, supplierID, productImage);
+                    if (productDao.createProduct(p)) {
+                        message = "product created succesfully";
+                        request.setAttribute("message", message);
+                    }
+                } else {
+                        request.setAttribute("productError", productError);
+                        request.setAttribute("isError", isError);
+                }
+
             }
 
         } catch (Exception e) {

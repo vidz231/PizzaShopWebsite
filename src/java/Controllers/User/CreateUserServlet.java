@@ -7,6 +7,7 @@ package Controllers.User;
 
 import Model.DAO.UserDAO;
 import Model.DTO.User;
+import Model.DTO.UserError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -46,20 +47,41 @@ public class CreateUserServlet extends HttpServlet {
         int type;
         UserDAO userDao = new UserDAO();
         User user;
+        boolean isError = false;
+        UserError userError = new UserError();
         try {
             accountID = 0;
             username = request.getParameter("userName");
+            if (username.isEmpty()) {
+                isError = true;
+                userError.setUsernameError("username must not be empty");
+            }
             fullName = request.getParameter("fullName");
+            if (fullName.isEmpty()) {
+                isError = true;
+                userError.setFullNameError("fullName must not be empty");
+            }
             password = request.getParameter("password");
+            if (password.isEmpty()) {
+                isError = true;
+                userError.setPasswordError("password must not be empty");
+            }
             type = Integer.parseInt(request.getParameter("type"));
             user = new User(accountID, username, fullName, password, type);
-            if (userDao.createUser(user)) {
-                message = "User create successfully";
-                request.setAttribute("message", message);
+
+            if (isError == false) {
+
+                if (userDao.createUser(user)) {
+                    message = "User create successfully";
+                    request.setAttribute("message", message);
+                } else {
+                    message = "error creating user, please double check your field and try again!";
+                    request.setAttribute("message", message);
+                    request.setAttribute("user", user);
+                }
             } else {
-                message = "error creating user, please double check your field and try again!";
-                request.setAttribute("message", message);
-                request.setAttribute("user", user);
+                request.setAttribute("isError", isError);
+                request.setAttribute("userError", userError);
             }
         } catch (Exception e) {
             log("error at create user servlet:  " + e.getMessage());

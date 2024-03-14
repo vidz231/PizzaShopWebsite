@@ -7,6 +7,7 @@ package Controllers.User;
 
 import Model.DAO.UserDAO;
 import Model.DTO.User;
+import Model.DTO.UserError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -39,27 +40,49 @@ public class RegisterServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String username = request.getParameter("txtUserName");
-        String password = request.getParameter("txtPassword");
-        String confirmPassword = request.getParameter("txtConfirmPassword");
-        String fullName = request.getParameter("txtFullName");
+
         User user;
         String url = registerPage;
         String message = "Error register! double check your field";
+        boolean isError = false;
+        UserError userError = new UserError();
         try {
+
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 url = registerPage;
             } else {
-                if (password.equals(confirmPassword)) {
+                String username = request.getParameter("txtUserName");
+                if (!username.matches("^.{6,18}$")) {
+                    isError = true;
+                    userError.setUsernameError("Your username input is invalid. Please ensure your username is between 6 and 18 characters long. Let's try again.");
+                }
+                String password = request.getParameter("txtPassword");
+                if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")) {
+                    isError = true;
+                    userError.setPasswordError("Invalid password. It must contain at least one digit, one lowercase letter, one uppercase letter, one special character (@#$%^&+=), no whitespace, and be at least 8 characters long.");
+                }
+                String confirmPassword = request.getParameter("txtConfirmPassword");
+                if (!password.equals(confirmPassword)) {
+                    isError = true;
+                    userError.setMatchedPasswordError("confirm password doesn't match.");
+                }
+                String fullName = request.getParameter("txtFullName");
+                if (!fullName.matches("^[A-Z].{0,14}$")) {
+                    isError = true;
+                    userError.setMatchedPasswordError("Invalid full name. It should start with an uppercase letter and not exceed 15 characters.");
+                }
+                user = new User(0, username, fullName, password, 1);
+                if (isError == false) {
                     UserDAO userDao = new UserDAO();
-                    user = new User(0, username, fullName, password, 1);
                     if (userDao.createUser(user)) {
                         message = "user created Successfully";
                     } else {
-                        message ="error register user";
+                        message = "error register user";
                     }
                 } else {
-                    message = "confirm password doesn't match! please double check and try again.";
+                    request.setAttribute("isError", isError);
+                    request.setAttribute("userError", userError);
+                    request.setAttribute("user", user);
                 }
                 request.setAttribute("message", message);
             }
