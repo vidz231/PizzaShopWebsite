@@ -128,7 +128,7 @@ public class CategoryDAO {
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "DELETE FROM Categories"
+            String sql = "DELETE FROM Categories "
                     + "WHERE CategoryID =?";
             preStm = cnn.prepareStatement(sql);
             preStm.setInt(1, id);

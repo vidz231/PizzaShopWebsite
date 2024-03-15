@@ -71,6 +71,7 @@ public class ViewProductServlet extends HttpServlet {
                     String searchParam = request.getParameter("searchParam");
                     productList = productList.stream().filter(p -> String.valueOf(p.getProductID()).contains(searchParam)
                             || p.getProductName().toLowerCase().startsWith(searchParam.toLowerCase())
+                            || p.getProductName().toLowerCase().contains(searchParam.toLowerCase())
                             || String.valueOf(p.getUnitPrice()).contains(searchParam))
                             .collect(Collectors.toList());
                     request.setAttribute("productList", productList);
@@ -82,7 +83,8 @@ public class ViewProductServlet extends HttpServlet {
                     String searchMinPrice = request.getParameter("searchMinPrice");
                     productList = productList.stream().filter(p -> String.valueOf(p.getProductID()).contains(searchParam)
                             || p.getProductName().toLowerCase().startsWith(searchParam.toLowerCase())
-                           )
+                            || p.getProductName().toLowerCase().contains(searchParam.toLowerCase())
+                            || String.valueOf(p.getUnitPrice()).contains(searchParam))
                             .collect(Collectors.toList());
                     request.setAttribute("productList", productList);
                     request.setAttribute("searchParam", searchParam);
@@ -90,7 +92,7 @@ public class ViewProductServlet extends HttpServlet {
                 }
                 if (request.getParameter("searchMinPrice") != null) {
                     int searchMinPrice = Integer.parseInt(request.getParameter("searchMinPrice"));
-                    productList = productList.stream().filter(p -> p.getUnitPrice()>=searchMinPrice)
+                    productList = productList.stream().filter(p -> p.getUnitPrice() >= searchMinPrice)
                             .collect(Collectors.toList());
                     request.setAttribute("productList", productList);
                     request.setAttribute("searchMinPrice", searchMinPrice);

@@ -44,6 +44,9 @@
                     <li >
                         <a class="dropdown-item"  href="UserController?action=create">Create User</a>
                     </li>
+                    <li >
+                        <a class="dropdown-item"  href="CategoryController?action=create">Create Category</a>
+                    </li>
                 </ul>
             </div>
             <div class="dropdown">
@@ -59,6 +62,9 @@
                     </li>
                     <li >
                         <a class="dropdown-item" href="OrderController?action=view">View Order</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="CategoryController?action=view">View Category</a>
                     </li>
                 </ul>
             </div>
@@ -261,6 +267,58 @@
                         </table>
                         <% } %>
 
+                    </c:when>
+                    <c:when test="${requestScope.categoryList!=null}">
+                        <%-- Category List --%>
+                        <% List<Category> categoryListChart = (List<Category>) request.getAttribute("categoryListChart");
+                            if (categoryListChart != null && !categoryListChart.isEmpty()) {
+                        %>
+                        <table class="table table-bordered mt-3 table-hover">
+                            <tr>
+                                <th>Category ID</th>
+                                <th>Category Name </th>
+                                <th colspan="2">Description</th>
+                                <th>Action</th>
+                            </tr>
+                            <% for (Category category : categoryListChart) {%>
+                            <tr>
+                                <td><%= category.getCategoryID()%></td>
+                                <td ><%= category.getCategoryName()%></td>
+                                <td colspan="2"><%= category.getDescription()%></td>
+                                <td>
+                                    <!-- Add your action buttons or links here -->
+                                    <a class="btn btn-primary btn-sm" href="CategoryController?action=update&categoryId=<%= category.getCategoryID()%>">Edit</a> |
+                                    <!-- Button trigger modal -->
+                                    <a href="#" class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal<%= category.getCategoryID()%>">
+                                        Delete
+                                    </a>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="deleteModal<%= category.getCategoryID()%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete this Category id = <%= category.getCategoryID()%>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form method="POST" action="CategoryController?action=delete">
+                                                        <input type="hidden" name="categoryId" value="<%= category.getCategoryID()%>">
+                                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </table>
+                        <% } %>
                     </c:when>
                     <c:otherwise>
                         <c:redirect url="/"/>
