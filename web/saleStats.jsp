@@ -32,6 +32,9 @@
                     <li >
                         <a class="dropdown-item"  href="UserController?action=create">Create User</a>
                     </li>
+                    <li >
+                        <a class="dropdown-item"  href="CategoryController?action=create">Create Category</a>
+                    </li>
                 </ul>
             </div>
             <div class="dropdown">
@@ -48,6 +51,9 @@
                     <li >
                         <a class="dropdown-item" href="OrderController?action=view">View Order</a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" href="CategoryController?action=view">View Category</a>
+                    </li>
                 </ul>
             </div>
             <div class="dropdown">
@@ -61,7 +67,7 @@
             </div>
             <a class="btn btn-danger" href="UserController?action=signout">Sign Out</a>
 
-        </nav>  
+        </nav>
         <div class="container mt-5">
             <h1 class="mb-4">Pizza Shop Sales Statistics</h1>
             <form action="OrderController?action=view-sale-stats" method="POST" id="filter-form">

@@ -55,14 +55,12 @@ public class UpdateCategoryServlet extends HttpServlet {
                     categoryError.setCategoryNameError("Name must start with a capital letter and have lenght 6-18 characters");
                 }
                 String updatedDescription = request.getParameter("categoryDescription");
-
                 if (updatedDescription.isEmpty()) {
                     isError = true;
                     categoryError.setCategoryNameError("description cannot be empty");
                 }
                 if (isError == false) {
-                    updatedCategory = new Category(0, updatedCategoryName, updatedDescription);
-
+                    updatedCategory = new Category(categoryId, updatedCategoryName, updatedDescription);
                     updatedCategory.setCategoryName(updatedCategoryName);
                     updatedCategory.setDescription(updatedDescription);
                     if (categoryDao.updateCategory(updatedCategory)) {

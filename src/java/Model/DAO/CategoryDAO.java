@@ -23,11 +23,11 @@ import java.util.List;
 public class CategoryDAO {
 
     //<editor-fold defaultstate="collapse" desc="view All Category method">
-    public HashMap<Integer,Category> viewAllCategory() throws Exception {
+    public HashMap<Integer, Category> viewAllCategory() throws Exception {
         Connection cnn = null;
         PreparedStatement preStm = null;
         ResultSet rs = null;
-        HashMap<Integer,Category> categoryList = new HashMap<>();
+        HashMap<Integer, Category> categoryList = new HashMap<>();
         Category category;
         int id;
         String categoryName;
@@ -43,7 +43,7 @@ public class CategoryDAO {
                 categoryName = rs.getString(2);
                 description = rs.getString(3);
                 category = new Category(id, categoryName, description);
-                categoryList.put(id,category);
+                categoryList.put(id, category);
             }
         } catch (Exception e) {
             System.out.println("error at view all category:     " + e.getMessage());
@@ -58,7 +58,7 @@ public class CategoryDAO {
                 preStm.close();
             }
         }
-        if(!categoryList.isEmpty()){
+        if (!categoryList.isEmpty()) {
             return categoryList;
         }
         return null;
@@ -100,9 +100,9 @@ public class CategoryDAO {
         PreparedStatement preStm = null;
         try {
             cnn = DBUtils.getConnection();
-            String sql = "Update dbo.Categories"
-                    + "SET CategoryName = ?,Description=?"
-                    + "where CategoryID=?;";
+            String sql = "Update Categories "
+                    + "SET CategoryName = ?,Description=? "
+                    + "WHERE CategoryID=?";
             preStm = cnn.prepareStatement(sql);
             preStm.setString(1, updatedCategory.getCategoryName());
             preStm.setString(2, updatedCategory.getDescription());
@@ -118,7 +118,7 @@ public class CategoryDAO {
                 preStm.close();
             }
         }
-        return true;
+        return false;
     }
 
     //</editor-fold>

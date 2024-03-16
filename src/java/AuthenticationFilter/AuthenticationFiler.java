@@ -5,6 +5,7 @@
  */
 package AuthenticationFilter;
 
+import Model.DTO.User;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author TRUNG VI
  */
-@WebFilter(filterName = "AuthenticationFiler", urlPatterns = {"/OrderController"})
+@WebFilter(filterName = "AuthenticationFiler", urlPatterns = {"*.jsp"})
 public class AuthenticationFiler implements Filter {
 
     private static final boolean debug = true;
@@ -108,40 +109,21 @@ public class AuthenticationFiler implements Filter {
             log("AuthenticationFiler:doFilter()");
         }
 
-        doBeforeProcessing(request, response);
-
-        Throwable problem = null;
-        try {
-            HttpServletRequest req = (HttpServletRequest) request;
-            HttpServletResponse resp = (HttpServletResponse) response;
-            HttpSession session = req.getSession(false);
-            if (session.getAttribute("user") != null) {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null && user.getType() == 0) {
+                req.setAttribute("loggedByAdmin", true);
                 chain.doFilter(request, response);
+
             } else {
-                resp.sendRedirect("login.jsp");
-
+                req.getRequestDispatcher("login.jsp").forward(request, response);
             }
-
-        } catch (Throwable t) {
-            // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
-        }
-
-        doAfterProcessing(request, response);
-
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
-            }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
-            }
-            sendProcessingError(problem, response);
+        } else {
+            req.getRequestDispatcher("ProductController?action=view").forward(request, response);
+//            resp.sendRedirect("");
         }
     }
 

@@ -53,8 +53,6 @@
                             <a href="OrderController?action=view" class="btn btn-secondary">Back</a>
                             <input type="submit" class="btn btn-primary"name="action" value="update">
                         </div>
-
-
                     </div>
                 </form>
             </div>

@@ -83,7 +83,7 @@
                         <div class="col-12 justify-content-center d-flex justify-content-center mt-3">
                             <!--Cart button below-->
 
-                            <a class="btn btn-primary" href="CartController?action=view">🛒</a>
+                            <a class="btn btn-outline-secondary" href="CartController?action=view">🛒</a>
                         </div>
 
 
